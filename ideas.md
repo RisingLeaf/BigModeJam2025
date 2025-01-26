@@ -14,3 +14,6 @@ Todo:
 	- conditional breakable walls (x)
 	- start and goal ...
 	- (try) procedural level gen, if fail make custom (actually not too bad)
+	- Spikes
+	- more interesting terrain
+	- self placed hook points
