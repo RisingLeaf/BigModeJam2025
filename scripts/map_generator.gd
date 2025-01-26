@@ -179,7 +179,7 @@ func _ready() -> void:
 				var scene = load(BreakingBarrierPath)
 				var instance := scene.instantiate() as BreakingBarrier
 				instance.PlayerInst = PlayerInst
-				instance.Threshold  = randf_range(1500., 2500.)
+				instance.Threshold  = randf_range(1000., 2000.)
 				if large_scale_grid[i][j] == 4:
 					instance.update(Vector2(LargeGridRes, LargeGridRes / 8) * grid_scale)
 					instance.position = (lowest_corner_world
@@ -208,7 +208,6 @@ func _ready() -> void:
 
 	
 	PlayerInst.DisabledHookPoints = PlayerInst.HookablePoints
-	#PlayerInst.RopeInst.
 	ActionNode.process_mode = Node.PROCESS_MODE_DISABLED
 	Camera.follow_mode = false
 	paused = true
@@ -234,7 +233,7 @@ func _process(delta: float) -> void:
 			Camera.control_taken = false
 			PlayerInst.DisabledHookPoints = []
 		else:
-			Camera.zoom = timer * old_cam_zoom + (1. - timer) * Vector2(1., 1.)
+			Camera.zoom = timer * old_cam_zoom + (1. - timer) * Vector2(Camera.goal_zoom, Camera.goal_zoom)
 			Camera.position = timer * old_cam_pos + (1. - timer) * PlayerInst.position
 	
 			

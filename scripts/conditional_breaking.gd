@@ -16,13 +16,13 @@ func _ready() -> void:
 func _draw() -> void:
 	var rect = Rect2(Vector2(-0.5, -0.5), Vector2(1, 1))
 	
-	var fac = Threshold / 4000.
+	var fac = Threshold / 3000.
 	var color = Color(1., 1. - fac, 1. - fac)
 	draw_rect(rect, color)
 
 func update(size : Vector2) -> void:
 	scale = size
-	Collider.scale = Vector2(1.1, 1.1)
+	Collider.scale = Vector2(1.2, 1.2)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

@@ -130,6 +130,7 @@ scale_over_velocity_max = 4.0
 
 [node name="Node2D" type="Node2D"]
 physics_interpolation_mode = 1
+texture_filter = 1
 
 [node name="Overlay" type="CanvasLayer" parent="."]
 
@@ -168,6 +169,7 @@ stretch_mode = 6
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("PlayerInst")]
 script = ExtResource("1_sieai")
 PlayerInst = NodePath("../Action Stuff/Player")
+goal_zoom = 0.8
 
 [node name="HookPointDrawer" type="Node2D" parent="." node_paths=PackedStringArray("PlayerInst")]
 texture_filter = 1
@@ -230,10 +232,9 @@ frame_progress = 0.726223
 script = ExtResource("2_epjra")
 
 [node name="Player" type="RigidBody2D" parent="Action Stuff" node_paths=PackedStringArray("RopeInst", "HookPoint")]
+texture_filter = 1
 mass = 5.0
 physics_material_override = SubResource("PhysicsMaterial_w1pv8")
-linear_velocity = Vector2(1000, 0)
-linear_damp_mode = 1
 script = ExtResource("2_yx4fo")
 Sprite = ExtResource("11_eqmvv")
 RopeInst = NodePath("../Rope")

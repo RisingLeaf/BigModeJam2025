@@ -3,6 +3,7 @@ extends Camera2D
 class_name CameraControl
 
 @export var PlayerInst : Player
+@export var goal_zoom : float
 
 var follow_mode   := false
 var control_taken := false
@@ -17,11 +18,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if not control_taken:
 		if follow_mode:
-			zoom = Vector2(1., 1.)
+			zoom = Vector2(goal_zoom, goal_zoom)
 			var diff = PlayerInst.position - position
 			position = position + (diff) * delta * 4.
 		else:
-			zoom = Vector2(0.1, 0.1)
+			zoom = Vector2(0.2, 0.2)
 			if Input.is_action_pressed("Up"):
 				position += Vector2(0, -CameraSpeed) * delta
 			elif Input.is_action_pressed("Down"):
