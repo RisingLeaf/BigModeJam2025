@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://7uq6wv4hi33o"]
+
+[ext_resource type="Script" path="res://scripts/conditional_breaking.gd" id="1_i2j85"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m3maj"]
+size = Vector2(1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3hnac"]
+size = Vector2(1, 1)
+
+[node name="Conditionally Breaking" type="StaticBody2D" node_paths=PackedStringArray("Collider")]
+z_as_relative = false
+script = ExtResource("1_i2j85")
+Collider = NodePath("Area2D")
+Threshold = 1000.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_m3maj")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_3hnac")

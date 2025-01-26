@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://bf0lpfrdka5ks"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bbvn0"]
+
+[node name="WorldBorders" type="Node2D"]
+
+[node name="North" type="CollisionShape2D" parent="."]
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_bbvn0")
+
+[node name="East" type="CollisionShape2D" parent="."]
+rotation = 4.71239
+shape = SubResource("WorldBoundaryShape2D_bbvn0")
+
+[node name="West" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_bbvn0")
+
+[node name="South" type="CollisionShape2D" parent="."]
+shape = SubResource("WorldBoundaryShape2D_bbvn0")
