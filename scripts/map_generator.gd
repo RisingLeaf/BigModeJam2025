@@ -110,8 +110,8 @@ func _ready() -> void:
 	var player_start_pos = PlayerInst.position
 	var grid_scale = Vector2(TileMapToUse.tile_set.tile_size) * TileMapToUse.scale
 	var player_start_tile = Vector2i(floor(player_start_pos / grid_scale))
-	var tile_set_id = 0
-	var tile_to_use = Vector2i(1, 0)
+	var tile_set_id = 1
+	var tile_to_use = Vector2i(8, 0)
 	
 	TileMapToUse.clear()
 	PlayerInst.HookablePoints.clear()
@@ -244,7 +244,13 @@ func _ready() -> void:
 					instance.position = place_position + Vector2(abs(side.y), -abs(side.x)) * (k + 0.5) * 64
 					instance.rotation = place_rotation
 					add_child(instance)
-
+	
+#	TileMapToUse.update_bitmask_region(lowest_corner, highest_corner)
+	for i in range(0, final_res + 2):
+		for j in range(0, final_res + 2):
+			TileMapToUse.set_cells_terrain_connect(
+				[lowest_corner + Vector2i(i - 1, -j + 1)], 0, 1
+			)
 	
 	PlayerInst.DisabledHookPoints = PlayerInst.HookablePoints
 	ActionNode.process_mode = Node.PROCESS_MODE_DISABLED
