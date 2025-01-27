@@ -191,6 +191,7 @@ East = NodePath("../Action Stuff/WorldBorders/East")
 West = NodePath("../Action Stuff/WorldBorders/West")
 South = NodePath("../Action Stuff/WorldBorders/South")
 BreakingBarrierPath = "res://scenes/conditionally_breaking.tscn"
+SpikePath = "res://scenes/spike.tscn"
 
 [node name="TileMapLayer" type="TileMapLayer" parent="MapGenerator"]
 scale = Vector2(4, 4)
@@ -260,5 +261,3 @@ NodeA = NodePath("../PinJoint2D")
 NodeB = NodePath("../Player")
 Width = 5
 Stretchyness = 500.0
-
-[node name="PauseMenu" type="CanvasLayer" parent="."]

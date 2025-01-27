@@ -1,0 +1,74 @@
+[gd_scene load_steps=6 format=3 uid="uid://dqq23vx3bkriq"]
+
+[ext_resource type="Texture2D" uid="uid://bxbbhyxs4rpfu" path="res://images/splashed.png" id="1_jwjcf"]
+[ext_resource type="Texture2D" uid="uid://cgn5phsv02ct8" path="res://images/restart.png" id="2_8lkhm"]
+[ext_resource type="Texture2D" uid="uid://dnpwiorisudln" path="res://images/Background_A.JPG" id="2_41f2x"]
+[ext_resource type="Texture2D" uid="uid://ddnfiyamek4l2" path="res://images/restart_selected.png" id="3_jfu5x"]
+[ext_resource type="Script" path="res://scripts/texture_button.gd" id="4_jy7db"]
+
+[node name="DeathScene" type="Control"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(1024, 0)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -512.0
+offset_right = 512.0
+offset_bottom = 512.0
+grow_horizontal = 2
+texture = ExtResource("1_jwjcf")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="TextureButton" type="TextureButton" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = 21.0
+offset_right = 281.0
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("2_8lkhm")
+texture_hover = ExtResource("3_jfu5x")
+stretch_mode = 5
+script = ExtResource("4_jy7db")
+ScenePath = "res://scenes/main.tscn"
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Control" type="Control" parent="Background"]
+z_as_relative = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Background/Control"]
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_41f2x")
+expand_mode = 2
+stretch_mode = 6
