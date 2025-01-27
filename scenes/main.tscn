@@ -112,7 +112,7 @@ animations = [{
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_w1pv8"]
 friction = 0.0
-bounce = 0.4
+bounce = 0.6
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ncvu6"]
 radius = 32.0
@@ -219,7 +219,7 @@ shape = SubResource("WorldBoundaryShape2D_bbvn0")
 position = Vector2(-5606, 2999)
 node_a = NodePath("StaticBody2D")
 node_b = NodePath("../Player")
-softness = 1.0
+softness = 2.0
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Action Stuff/PinJoint2D"]
 
@@ -235,6 +235,7 @@ script = ExtResource("2_epjra")
 texture_filter = 1
 mass = 5.0
 physics_material_override = SubResource("PhysicsMaterial_w1pv8")
+gravity_scale = 0.5
 script = ExtResource("2_yx4fo")
 Sprite = ExtResource("11_eqmvv")
 RopeInst = NodePath("../Rope")
@@ -259,3 +260,5 @@ NodeA = NodePath("../PinJoint2D")
 NodeB = NodePath("../Player")
 Width = 5
 Stretchyness = 500.0
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
