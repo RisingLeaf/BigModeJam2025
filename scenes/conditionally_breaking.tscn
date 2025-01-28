@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://7uq6wv4hi33o"]
+[gd_scene load_steps=5 format=3 uid="uid://7uq6wv4hi33o"]
 
 [ext_resource type="Script" path="res://scripts/conditional_breaking.gd" id="1_i2j85"]
+[ext_resource type="Texture2D" uid="uid://c54qnre2ew8gh" path="res://images/barrier.png" id="2_4vnwc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m3maj"]
 size = Vector2(1, 1)
@@ -13,6 +14,7 @@ z_as_relative = false
 script = ExtResource("1_i2j85")
 Collider = NodePath("Area2D")
 Threshold = 1000.0
+Sprite = ExtResource("2_4vnwc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_m3maj")

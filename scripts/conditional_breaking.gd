@@ -5,6 +5,7 @@ class_name BreakingBarrier
 @export var Collider : Area2D
 @export var PlayerInst : RigidBody2D
 @export var Threshold : float
+@export var Sprite : Texture2D
 
 var connected = false
 
@@ -16,9 +17,9 @@ func _ready() -> void:
 func _draw() -> void:
 	var rect = Rect2(Vector2(-0.5, -0.5), Vector2(1, 1))
 	
-	var fac = Threshold / 3000.
+	var fac = Threshold / 1500.
 	var color = Color(1., 1. - fac, 1. - fac)
-	draw_rect(rect, color)
+	draw_texture_rect(Sprite, rect, false, color)
 
 func update(size : Vector2) -> void:
 	scale = size

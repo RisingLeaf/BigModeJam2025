@@ -78,7 +78,7 @@ func _process(delta: float) -> void:
 	
 func _draw() -> void:
 	var rect = Rect2(Vector2(-32., -32.), Vector2(64., 64.))
-	var fac = linear_velocity.length() / 3000.
+	var fac = linear_velocity.length() / 1500.
 	var color = Color(1., 1. - fac, 1. - fac)
 	draw_texture_rect(Sprite, rect, false, color)
 	#draw_circle(Vector2(0, 0), 20., Color(linear_velocity.length() / 4000., 0, 1.))

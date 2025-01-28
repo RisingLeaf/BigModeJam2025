@@ -141,7 +141,7 @@ func _ready() -> void:
 	for i in range(path.size()):
 		var node = path[i]
 		large_scale_grid[node.x][node.y] = 1
-		if i > 1 and randi_range(0, 10) < 1:
+		if i > 1 and randi_range(0, 10) < 2:
 			var preceding_node = path[i - 1]
 			if preceding_node.y > node.y:
 				large_scale_grid[node.x][node.y] = 4
@@ -151,7 +151,7 @@ func _ready() -> void:
 				large_scale_grid[node.x][node.y] = 6
 			elif preceding_node.x < node.x:
 				large_scale_grid[node.x][node.y] = 7
-		elif i > 1 and randi_range(0, 10) < 5:
+		elif i > 1 and randi_range(0, 10) < 2:
 			large_scale_grid[node.x][node.y] = 8
 		
 		
@@ -165,10 +165,17 @@ func _ready() -> void:
 	East.position  = highest_corner_world
 	North.position = highest_corner_world
 	
-	fill_line(lowest_corner - Vector2i(0, -1), Vector2i(1, 0), final_res + 1, tile_set_id, tile_to_use)	
-	fill_line(lowest_corner, Vector2i(0, -1), final_res + 1, tile_set_id, tile_to_use)	
-	fill_line(lowest_corner - Vector2i(0, final_res), Vector2i(1, 0),  final_res, tile_set_id, tile_to_use)	
-	fill_line(lowest_corner + Vector2i(final_res, 0), Vector2i(0, -1), final_res + 1, tile_set_id, tile_to_use)	
+	fill_line(lowest_corner - Vector2i(0, -1), Vector2i(1, 0), final_res + 1, tile_set_id, tile_to_use)
+	fill_line(lowest_corner - Vector2i(0, -2), Vector2i(1, 0), final_res + 1, tile_set_id, tile_to_use)
+	
+	fill_line(lowest_corner - Vector2i(1, -2), Vector2i(0, -1), final_res + 3, tile_set_id, tile_to_use)
+	fill_line(lowest_corner - Vector2i(2, -2), Vector2i(0, -1), final_res + 4, tile_set_id, tile_to_use)
+	
+	fill_line(lowest_corner - Vector2i(0, final_res), Vector2i(1, 0),  final_res, tile_set_id, tile_to_use)
+	fill_line(lowest_corner - Vector2i(1, final_res + 1), Vector2i(1, 0),  final_res + 3, tile_set_id, tile_to_use)
+	
+	fill_line(lowest_corner + Vector2i(final_res, 0), Vector2i(0, -1), final_res + 1, tile_set_id, tile_to_use)
+	fill_line(lowest_corner + Vector2i(final_res + 1, 2), Vector2i(0, -1), final_res + 3, tile_set_id, tile_to_use)
 	
 	for i in range(LargeGridSize):
 		for j in range(LargeGridSize):
@@ -178,12 +185,29 @@ func _ready() -> void:
 					Vector2( player_start_tile + large_coord ) * grid_scale)
 			else:
 				fill_rect(lowest_corner + large_coord, Vector2i(LargeGridRes, LargeGridRes), tile_set_id, tile_to_use)
-			
-			if large_scale_grid[i][j] >= 4 and large_scale_grid[i][j] <= 7:
+			if large_scale_grid[i][j] == 1:
+				var sides = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0)]
+				for side in sides:
+					var off_coord = Vector2i(i + side.x, j + side.y)
+					if 0 <= off_coord.x and off_coord.x < LargeGridSize and 0 <= off_coord.y and off_coord.y < LargeGridSize:
+						if large_scale_grid[i + side.x][j + side.y]:
+							print("side ignored: " + str(i) + " " + str(j))
+							continue
+					var side_start = (large_coord - Vector2i(LargeGridRes, -LargeGridRes) / 2
+									+ Vector2i(LargeGridRes if side.x > 0 else 0, -LargeGridRes if side.y > 0 else 0)
+									)
+					var direction = Vector2i(abs(side.y), abs(side.x))
+					print(direction)
+					for k in range(LargeGridRes/4):
+						var height = randi_range(0, LargeGridRes / 8) * 2
+						fill_rect(side_start + k * 4 * Vector2i(direction.x, -direction.y),
+							height * -Vector2i(side.x, side.y) + 4 * direction, tile_set_id, tile_to_use)
+					
+			elif large_scale_grid[i][j] >= 4 and large_scale_grid[i][j] <= 7:
 				var scene = load(BreakingBarrierPath)
 				var instance := scene.instantiate() as BreakingBarrier
 				instance.PlayerInst = PlayerInst
-				instance.Threshold  = randf_range(1000., 2000.)
+				instance.Threshold  = randf_range(500., 1500.)
 				if large_scale_grid[i][j] == 4:
 					instance.update(Vector2(LargeGridRes, LargeGridRes / 8) * grid_scale)
 					instance.position = (lowest_corner_world
@@ -197,17 +221,19 @@ func _ready() -> void:
 								 -(j + 0.0625) * LargeGridRes + 1)
 								* grid_scale)
 				elif large_scale_grid[i][j] == 5:
-					instance.update(Vector2(LargeGridRes / 8, LargeGridRes) * grid_scale)
+					instance.update(Vector2(LargeGridRes, LargeGridRes / 8) * grid_scale)
 					instance.position = (lowest_corner_world
 						+ Vector2((i + 0.9375) * LargeGridRes,
 								 -(j + 0.5) * LargeGridRes + 1)
 								* grid_scale)
+					instance.rotation = PI * 0.5
 				elif large_scale_grid[i][j] == 7:
-					instance.update(Vector2(LargeGridRes / 8, LargeGridRes) * grid_scale)
+					instance.update(Vector2(LargeGridRes, LargeGridRes / 8) * grid_scale)
 					instance.position = (lowest_corner_world
 						+ Vector2((i + 0.0625) * LargeGridRes,
 								-(j + 0.5) * LargeGridRes + 1)
 								* grid_scale)
+					instance.rotation = PI * 0.5
 				add_child(instance)
 			if large_scale_grid[i][j] == 8: #spikes
 				var scene = load(SpikePath)
@@ -246,10 +272,10 @@ func _ready() -> void:
 					add_child(instance)
 	
 #	TileMapToUse.update_bitmask_region(lowest_corner, highest_corner)
-	for i in range(0, final_res + 2):
-		for j in range(0, final_res + 2):
+	for i in range(-2, final_res + 5):
+		for j in range(-2, final_res + 5):
 			TileMapToUse.set_cells_terrain_connect(
-				[lowest_corner + Vector2i(i - 1, -j + 1)], 0, 1
+				[lowest_corner + Vector2i(i - 2, -j + 2)], 0, 1
 			)
 	
 	PlayerInst.DisabledHookPoints = PlayerInst.HookablePoints

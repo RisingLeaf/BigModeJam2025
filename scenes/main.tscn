@@ -315,7 +315,7 @@ stretch_mode = 6
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("PlayerInst")]
 script = ExtResource("1_sieai")
 PlayerInst = NodePath("../Action Stuff/Player")
-goal_zoom = 0.8
+goal_zoom = 0.6
 
 [node name="HookPointDrawer" type="Node2D" parent="." node_paths=PackedStringArray("PlayerInst")]
 texture_filter = 1
