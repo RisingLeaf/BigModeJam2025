@@ -1,18 +1,23 @@
-[gd_scene load_steps=30 format=4 uid="uid://dbc3mvxb8ur5t"]
+[gd_scene load_steps=36 format=4 uid="uid://dbc3mvxb8ur5t"]
 
 [ext_resource type="Script" path="res://scripts/CameraControl.gd" id="1_sieai"]
 [ext_resource type="Texture2D" uid="uid://cbrn22f8duy3d" path="res://images/Selected hookpoint.png" id="1_t1igp"]
+[ext_resource type="Texture2D" uid="uid://bp550ekdeapc2" path="res://images/hookpoint button.png" id="2_3uf8v"]
 [ext_resource type="Script" path="res://scripts/animated_sprite_2d.gd" id="2_epjra"]
 [ext_resource type="Script" path="res://scripts/Rope.gd" id="2_rwd61"]
 [ext_resource type="Texture2D" uid="uid://dnpwiorisudln" path="res://images/Background_A.JPG" id="2_xgun8"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="2_yx4fo"]
+[ext_resource type="Texture2D" uid="uid://bc3xqid7ah70n" path="res://images/hookpoint button selected.png" id="3_yge4o"]
 [ext_resource type="Script" path="res://scripts/PowerDisplay.gd" id="4_52yjf"]
+[ext_resource type="Script" path="res://scenes/hook_point_placer.gd" id="4_yhxkl"]
 [ext_resource type="Texture2D" uid="uid://r6445x6acpia" path="res://images/tileset.png" id="7_vy6t5"]
 [ext_resource type="Script" path="res://scripts/HookPointDrawer.gd" id="8_i0oen"]
 [ext_resource type="Script" path="res://scripts/map_generator.gd" id="8_tf8mm"]
 [ext_resource type="Texture2D" uid="uid://cg3r4e2pkrvv1" path="res://images/unselected hookpoint.png" id="9_7f5pm"]
 [ext_resource type="Texture2D" uid="uid://1dvo1ohtysm4" path="res://images/ball.png" id="11_eqmvv"]
 [ext_resource type="Texture2D" uid="uid://bqchjvjrrffw8" path="res://images/particle.png" id="12_ap1cx"]
+[ext_resource type="Shader" path="res://scenes/pp.gdshader" id="14_kgou4"]
+[ext_resource type="Script" path="res://scenes/state_control.gd" id="15_7ss4k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6xunw"]
 texture = ExtResource("7_vy6t5")
@@ -274,13 +279,57 @@ scale_min = 2.0
 scale_max = 4.0
 scale_over_velocity_max = 4.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ib0ci"]
+shader = ExtResource("14_kgou4")
+shader_parameter/WATER_COL = Color(0.176471, 0.635294, 0.85098, 1)
+shader_parameter/WATER2_COL = Color(0.0588235, 0.529412, 0.776471, 1)
+shader_parameter/FOAM_COL = Color(0.87451, 0.988235, 1, 1)
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(5, 5)
+shader_parameter/offset = Vector2(0, 0)
+
 [node name="Node2D" type="Node2D"]
 physics_interpolation_mode = 1
 texture_filter = 1
 
-[node name="Overlay" type="CanvasLayer" parent="."]
+[node name="StateControl" type="Node2D" parent="." node_paths=PackedStringArray("InGameOverlay", "PrestartOverlay", "PlayerInst", "ActionNode", "Camera")]
+script = ExtResource("15_7ss4k")
+InGameOverlay = NodePath("../InGame")
+PrestartOverlay = NodePath("../Paused")
+PlayerInst = NodePath("../Action Stuff/Player")
+ActionNode = NodePath("../Action Stuff")
+Camera = NodePath("../Camera2D")
 
-[node name="Label" type="Label" parent="Overlay" node_paths=PackedStringArray("PlayerInst")]
+[node name="Paused" type="CanvasLayer" parent="."]
+
+[node name="HookPointPlacer" type="TextureButton" parent="Paused" node_paths=PackedStringArray("PlayerInst", "TileMapInst", "Camera", "Counter")]
+texture_filter = 1
+offset_right = 32.0
+offset_bottom = 32.0
+scale = Vector2(4, 4)
+texture_normal = ExtResource("2_3uf8v")
+texture_pressed = ExtResource("3_yge4o")
+texture_hover = ExtResource("3_yge4o")
+script = ExtResource("4_yhxkl")
+PlayerInst = NodePath("../../Action Stuff/Player")
+TileMapInst = NodePath("../../MapGenerator")
+Camera = NodePath("../../Camera2D")
+PointTex = ExtResource("9_7f5pm")
+Counter = NodePath("../Counter")
+HookPoints = 6
+
+[node name="Counter" type="Label" parent="Paused"]
+offset_left = 108.0
+offset_top = 112.0
+offset_right = 140.0
+offset_bottom = 140.0
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InGame" type="CanvasLayer" parent="."]
+
+[node name="Power" type="Label" parent="InGame" node_paths=PackedStringArray("PlayerInst")]
 offset_right = 122.0
 offset_bottom = 55.0
 theme_override_font_sizes/font_size = 40
@@ -324,12 +373,10 @@ script = ExtResource("8_i0oen")
 PlayerInst = NodePath("../Action Stuff/Player")
 PointTex = ExtResource("9_7f5pm")
 
-[node name="MapGenerator" type="Node2D" parent="." node_paths=PackedStringArray("TileMapToUse", "PlayerInst", "ActionNode", "Camera", "North", "East", "West", "South")]
+[node name="MapGenerator" type="Node2D" parent="." node_paths=PackedStringArray("TileMapToUse", "PlayerInst", "North", "East", "West", "South")]
 script = ExtResource("8_tf8mm")
 TileMapToUse = NodePath("TileMapLayer")
 PlayerInst = NodePath("../Action Stuff/Player")
-ActionNode = NodePath("../Action Stuff")
-Camera = NodePath("../Camera2D")
 LargeGridRes = 16
 LargeGridSize = 6
 North = NodePath("../Action Stuff/WorldBorders/North")
@@ -408,3 +455,14 @@ NodeA = NodePath("../PinJoint2D")
 NodeB = NodePath("../Player")
 Width = 5
 Stretchyness = 500.0
+
+[node name="PP" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="PP"]
+material = SubResource("ShaderMaterial_ib0ci")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

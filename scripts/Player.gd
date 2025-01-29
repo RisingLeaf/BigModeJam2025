@@ -67,7 +67,7 @@ func _process(delta: float) -> void:
 			
 		var connection = position - HookPoint.position
 		if Input.is_action_pressed("pull in") and connection.length() > 100.:
-			position -= connection.normalized() * delta * 100.
+			position -= connection.normalized() * delta * 500.
 			# not ideal but works
 			HookPoint.disable_collision = !HookPoint.disable_collision
 			HookPoint.disable_collision = !HookPoint.disable_collision
@@ -78,7 +78,7 @@ func _process(delta: float) -> void:
 	
 func _draw() -> void:
 	var rect = Rect2(Vector2(-32., -32.), Vector2(64., 64.))
-	var fac = linear_velocity.length() / 1500.
+	var fac = linear_velocity.length() / 2200.
 	var color = Color(1., 1. - fac, 1. - fac)
 	draw_texture_rect(Sprite, rect, false, color)
 	#draw_circle(Vector2(0, 0), 20., Color(linear_velocity.length() / 4000., 0, 1.))

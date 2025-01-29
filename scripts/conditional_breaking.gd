@@ -17,7 +17,7 @@ func _ready() -> void:
 func _draw() -> void:
 	var rect = Rect2(Vector2(-0.5, -0.5), Vector2(1, 1))
 	
-	var fac = Threshold / 1500.
+	var fac = Threshold / 2200.
 	var color = Color(1., 1. - fac, 1. - fac)
 	draw_texture_rect(Sprite, rect, false, color)
 
@@ -26,7 +26,7 @@ func update(size : Vector2) -> void:
 	Collider.scale = Vector2(1.2, 1.2)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	queue_redraw()
 	var bodies = Collider.get_overlapping_bodies()
 	if PlayerInst in bodies:

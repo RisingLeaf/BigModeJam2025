@@ -17,7 +17,7 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	points = [NodeA.position, NodeB.position]
 	var length = (NodeA.position - NodeB.position).length()
 	width  = max(1, Width * pow(2, -length / Stretchyness))
