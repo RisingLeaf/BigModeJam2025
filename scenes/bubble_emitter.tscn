@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcpl3vytffc5o"]
+
+[ext_resource type="Texture2D" uid="uid://be5viuv3rhua4" path="res://images/fire bubble thrower.png" id="1_xabqj"]
+[ext_resource type="Script" path="res://scripts/fire_bubbles.gd" id="2_1igpe"]
+
+[node name="BubbleEmitter" type="Sprite2D"]
+z_index = 2
+texture_filter = 1
+scale = Vector2(4, 4)
+texture = ExtResource("1_xabqj")
+hframes = 4
+script = ExtResource("2_1igpe")
+FrameTime = 0.6
+EmissionTime = 8.0
+BubblePath = "res://scenes/bubble.tscn"

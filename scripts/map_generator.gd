@@ -14,6 +14,7 @@ class_name MapGen
 
 @export var BreakingBarrierPath : String
 @export var SpikePath : String
+@export var VolcanoPath : String
 
 var grid_scale : Vector2
 
@@ -129,10 +130,11 @@ func _ready() -> void:
 	# 6 wall bottom
 	# 7 wall top
 	# 8 spikes
+	# 9 volcano
 	var path = randomized_a_star(large_scale_grid, Vector2i(0, 0), goal_large_grid_pos, LargeGridSize)
-	
+
 	var hook_point_coords = []
-	
+
 	for i in range(path.size()):
 		var node = path[i]
 		if i % 4 == 0:
@@ -150,6 +152,8 @@ func _ready() -> void:
 				large_scale_grid[node.x][node.y] = 7
 		elif i > 1 and randi_range(0, 10) < 4:
 			large_scale_grid[node.x][node.y] = 8
+		elif i > 1 and randi_range(0, 10) < 6:
+			large_scale_grid[node.x][node.y] = 9
 	large_scale_grid[0][0] = 2
 	large_scale_grid[goal_large_grid_pos.x][goal_large_grid_pos.y] = 3
 	
@@ -267,6 +271,41 @@ func _ready() -> void:
 					instance.PlayerInst = PlayerInst
 					instance.position = place_position + Vector2(abs(side.y), -abs(side.x)) * (k + 0.5) * 64
 					instance.rotation = place_rotation
+					add_child(instance)
+			if large_scale_grid[i][j] == 9: #volcano
+				var scene = load(VolcanoPath)
+				# select side
+				var sides = [
+					Vector2i(0, 1 if j < LargeGridSize - 1 else 0),
+					Vector2i(0,-1 if j > 0 else 0),
+					Vector2i(1 if i < LargeGridSize - 1 else 0, 0),
+					Vector2i(0 if i > 0 else 0, 0)]
+				var place_position : Vector2
+				var place_rotation := 0. as float
+				var side : Vector2i
+				var found := false
+				while sides.size() > 0:
+					side = sides.pick_random()
+					if large_scale_grid[i + side.x][j + side.y] == 0:
+						place_position = (lowest_corner_world
+									+ Vector2((i + max(0, side.x)) * LargeGridRes,
+							 				 -(j + max(0, side.y)) * LargeGridRes + 1) * grid_scale)
+						if   side.x == 1: place_rotation += 1.5 * PI; place_position.x -= 32
+						elif side.x ==-1: place_rotation += 0.5 * PI; place_position.x += 32
+						elif side.y == 1: place_rotation += 1.0 * PI; place_position.y += 32
+						elif side.y ==-1: place_rotation += 0.0 * PI; place_position.y -= 32
+						found = true
+						break
+					else:
+						sides.erase(side)
+				if not found:
+					continue
+				for k in range(LargeGridRes / 4):
+					var instance := scene.instantiate() as Volcano
+					instance.PlayerInst = PlayerInst
+					instance.position = place_position + 4 * Vector2(abs(side.y), -abs(side.x)) * (k + 0.5) * 64
+					instance.rotation = place_rotation
+					instance.emission_accu = randf_range(0., instance.EmissionTime)
 					add_child(instance)
 	
 #	TileMapToUse.update_bitmask_region(lowest_corner, highest_corner)

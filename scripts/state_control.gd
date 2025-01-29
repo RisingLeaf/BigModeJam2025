@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name StateControl
+
 
 @export var InGameOverlay   : CanvasLayer
 @export var PrestartOverlay : CanvasLayer
@@ -39,10 +41,6 @@ func start() -> void:
 func set_in_game() -> void:
 	InGameOverlay.visible   = true
 	PrestartOverlay.visible = false
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("hook") and paused:
-		start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
