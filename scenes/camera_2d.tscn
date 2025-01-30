@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://enbdi0pkwy0f"]
+
+[ext_resource type="Script" path="res://scripts/CameraControl.gd" id="1_7xdni"]
+
+[node name="Camera2D" type="Camera2D" node_paths=PackedStringArray("PlayerInst")]
+script = ExtResource("1_7xdni")
+PlayerInst = NodePath("")
+goal_zoom = 0.4
