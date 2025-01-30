@@ -241,7 +241,7 @@ script = ExtResource("8_tf8mm")
 TileMapToUse = NodePath("TileMapLayer")
 PlayerInst = NodePath("../Action Stuff/Player")
 LargeGridRes = 16
-LargeGridSize = 6
+LargeGridSize = 2
 North = NodePath("../Action Stuff/WorldBorders/North")
 East = NodePath("../Action Stuff/WorldBorders/East")
 West = NodePath("../Action Stuff/WorldBorders/West")
@@ -249,6 +249,7 @@ South = NodePath("../Action Stuff/WorldBorders/South")
 BreakingBarrierPath = "res://scenes/conditionally_breaking.tscn"
 SpikePath = "res://scenes/spike.tscn"
 VolcanoPath = "res://scenes/bubble_emitter.tscn"
+PortalPath = "res://scenes/portal.tscn"
 
 [node name="TileMapLayer" type="TileMapLayer" parent="MapGenerator"]
 scale = Vector2(4, 4)

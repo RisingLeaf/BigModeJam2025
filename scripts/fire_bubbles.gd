@@ -39,7 +39,6 @@ func _process(delta: float) -> void:
 				frame -= 1
 	if emission_accu > EmissionTime:
 		emission_accu -= EmissionTime
-		print(EmissionTime)
 		var scene = load(BubblePath)
 		var instance := scene.instantiate() as Bubble
 		instance.direction = direction

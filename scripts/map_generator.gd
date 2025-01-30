@@ -15,6 +15,7 @@ class_name MapGen
 @export var BreakingBarrierPath : String
 @export var SpikePath : String
 @export var VolcanoPath : String
+@export var PortalPath : String
 
 var grid_scale : Vector2
 
@@ -189,7 +190,13 @@ func _ready() -> void:
 			if Vector2i(i, j) in hook_point_coords:
 				PlayerInst.HookablePoints.append(
 					Vector2( player_start_tile + large_coord ) * grid_scale)
-			if large_scale_grid[i][j] == 1:
+			if large_scale_grid[i][j] == 3: # goal
+				var scene = load(PortalPath)
+				var instance := scene.instantiate() as Portal
+				instance.PlayerInst = PlayerInst
+				instance.position = Vector2(player_start_tile + large_coord) * grid_scale
+				add_child(instance)
+			elif large_scale_grid[i][j] == 1:
 				var sides = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0)]
 				for side in sides:
 					var off_coord = Vector2i(i + side.x, j + side.y)
@@ -204,7 +211,7 @@ func _ready() -> void:
 						var height = randi_range(0, LargeGridRes / 8) * 2
 						fill_rect(side_start + k * 4 * Vector2i(direction.x, -direction.y),
 							height * -Vector2i(side.x, side.y) + 4 * direction, tile_set_id, tile_to_use)
-					
+
 			elif large_scale_grid[i][j] >= 4 and large_scale_grid[i][j] <= 7:
 				var scene = load(BreakingBarrierPath)
 				var instance := scene.instantiate() as BreakingBarrier
