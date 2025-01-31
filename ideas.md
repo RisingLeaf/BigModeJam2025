@@ -15,5 +15,14 @@ Todo:
 	- start and goal ...
 	- (try) procedural level gen, if fail make custom (actually not too bad)
 	- Spikes (x)
-	- more interesting terrain
-	- self placed hook points
+	- more interesting terrain [x]
+	- self placed hook points [x]
+	- enemies
+	Saturday:
+	- power ups
+	- up drafts
+	- start menu
+	Sunday:
+	- Story
+	- Cutscenes
+	- special sauce

@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=4 uid="uid://dbc3mvxb8ur5t"]
+[gd_scene load_steps=36 format=4 uid="uid://dbc3mvxb8ur5t"]
 
 [ext_resource type="Texture2D" uid="uid://bp550ekdeapc2" path="res://images/hookpoint button.png" id="2_3uf8v"]
 [ext_resource type="Texture2D" uid="uid://dnpwiorisudln" path="res://images/Background_A.JPG" id="2_xgun8"]
@@ -19,6 +19,8 @@
 [ext_resource type="PackedScene" uid="uid://lmm7ey4g3hp" path="res://scenes/player.tscn" id="17_1a48t"]
 [ext_resource type="Script" path="res://scripts/animated_sprite_2d.gd" id="17_imnnu"]
 [ext_resource type="Script" path="res://scripts/Rope.gd" id="18_llqtx"]
+[ext_resource type="Script" path="res://scenes/fish.gd" id="20_jqwvp"]
+[ext_resource type="Texture2D" uid="uid://d1kd2wtw5hksf" path="res://images/miner.png" id="20_mq2d0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_300du"]
 font_size = 12
@@ -109,6 +111,9 @@ shader_parameter/FOAM_COL = Color(0.87451, 0.988235, 1, 1)
 shader_parameter/distortion_speed = 2.0
 shader_parameter/tile = Vector2(5, 5)
 shader_parameter/offset = Vector2(0, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6gsfr"]
+radius = 8.0
 
 [node name="Node2D" type="Node2D"]
 physics_interpolation_mode = 1
@@ -302,3 +307,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Fish" type="Area2D" parent="." node_paths=PackedStringArray("PlayerInst", "Display")]
+scale = Vector2(4, 4)
+script = ExtResource("20_jqwvp")
+PlayerInst = NodePath("../Action Stuff/Player")
+Display = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="Fish"]
+texture_filter = 1
+texture = ExtResource("20_mq2d0")
+hframes = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fish"]
+shape = SubResource("CircleShape2D_6gsfr")
+
+[connection signal="body_entered" from="Fish" to="Fish" method="_on_body_entered"]
