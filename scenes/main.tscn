@@ -21,7 +21,7 @@
 [ext_resource type="Script" path="res://scripts/Rope.gd" id="18_llqtx"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_300du"]
-font_size = 9
+font_size = 12
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bbvn0"]
 
@@ -125,44 +125,19 @@ Camera = NodePath("../Camera2D")
 [node name="Paused" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="Paused"]
-custom_minimum_size = Vector2(0, 70)
 anchors_preset = -1
-anchor_top = 0.917
+anchor_top = 0.9
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 9.75995
-grow_horizontal = 2
-grow_vertical = 0
+size_flags_horizontal = 3
 color = Color(0.179798, 0.091441, 0.120288, 1)
-
-[node name="Start" type="TextureButton" parent="Paused/ColorRect" node_paths=PackedStringArray("StateM")]
-texture_filter = 1
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 1
-anchors_preset = 13
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -64.0
-offset_right = 64.0
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("6_anmu0")
-texture_pressed = ExtResource("3_k68th")
-texture_hover = ExtResource("3_k68th")
-stretch_mode = 6
-script = ExtResource("3_mf4xg")
-StateM = NodePath("../../../StateControl")
 
 [node name="HookPointPlacer" type="TextureButton" parent="Paused/ColorRect" node_paths=PackedStringArray("PlayerInst", "TileMapInst", "Camera", "Counter")]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.047
+anchor_right = 0.1
 anchor_bottom = 1.0
-offset_left = 5.0
-offset_right = -1.16
-grow_vertical = 2
 texture_normal = ExtResource("2_3uf8v")
 texture_pressed = ExtResource("3_yge4o")
 texture_hover = ExtResource("3_yge4o")
@@ -177,20 +152,32 @@ HookPoints = 6
 
 [node name="Counter" type="Label" parent="Paused/ColorRect/HookPointPlacer"]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
+anchors_preset = -1
+anchor_left = 0.625
+anchor_top = 0.75
+anchor_right = 0.781
 anchor_bottom = 1.0
-offset_left = -15.0
-offset_top = -22.0
-offset_bottom = -8.0
-grow_horizontal = 0
-grow_vertical = 0
+offset_right = 0.0319977
 text = "1"
 label_settings = SubResource("LabelSettings_300du")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Start" type="TextureButton" parent="Paused/ColorRect" node_paths=PackedStringArray("StateM")]
+texture_filter = 1
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.751
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.280029
+texture_normal = ExtResource("6_anmu0")
+texture_pressed = ExtResource("3_k68th")
+texture_hover = ExtResource("3_k68th")
+stretch_mode = 5
+script = ExtResource("3_mf4xg")
+StateM = NodePath("../../../StateControl")
 
 [node name="InGame" type="CanvasLayer" parent="."]
 
@@ -241,7 +228,7 @@ script = ExtResource("8_tf8mm")
 TileMapToUse = NodePath("TileMapLayer")
 PlayerInst = NodePath("../Action Stuff/Player")
 LargeGridRes = 16
-LargeGridSize = 2
+LargeGridSize = 6
 North = NodePath("../Action Stuff/WorldBorders/North")
 East = NodePath("../Action Stuff/WorldBorders/East")
 West = NodePath("../Action Stuff/WorldBorders/West")
