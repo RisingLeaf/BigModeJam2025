@@ -5,19 +5,23 @@ class_name Player
 @export var Sprite : Texture2D
 @export var RopeInst : Rope
 @export var HookPoint : PinJoint2D
+@export var ScenePath : String
+@export var PowerDrainOverlay : PowerDrain
+
 
 var HookablePoints := [] as Array[Vector2]
 var DisabledHookPoints = [] as Array[Vector2]
 
-var hooked    := false
-var Power     := 100.
+var hooked        := false
+var Power         := 100.
+var DamageCooldown = -1.
 
 
 @onready var raycast : RayCast2D
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Power = Autoload.PlayerPowerLevel
 	HookPoint.node_b = ^""
 	RopeInst.visible = false
 	
@@ -31,8 +35,13 @@ func _input(event):
 		RopeInst.visible = false
 		hooked = false
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if Power < 0.:
+		if Autoload.PlayerSaves > 0:
+			Autoload.PlayerSaves -= 1
+			Power = 100.
+		else:
+			get_tree().call_deferred("change_scene_to_file", ScenePath)
 	if not hooked:
 		var space_state = get_world_2d().direct_space_state
 		var min_length = INF
@@ -54,15 +63,16 @@ func _process(delta: float) -> void:
 		HookPoint.position = point
 	
 	if hooked:
+		var accel = 10000. * Autoload.PlayerAccel
 		if Input.is_action_pressed("accel ccw"):
 			var accel_vector = (HookPoint.position - position).normalized()
 			accel_vector = Vector2(-accel_vector.y, accel_vector.x)
-			apply_force(accel_vector * 10000.)
+			apply_force(accel_vector * accel)
 			Power -= delta * 2.
 		elif Input.is_action_pressed("accel cw"):
 			var accel_vector = (position - HookPoint.position).normalized()
 			accel_vector = Vector2(-accel_vector.y, accel_vector.x)
-			apply_force(accel_vector * 10000.)
+			apply_force(accel_vector * accel)
 			Power -= delta * 2.
 			
 		var connection = position - HookPoint.position
@@ -72,7 +82,7 @@ func _process(delta: float) -> void:
 			HookPoint.disable_collision = !HookPoint.disable_collision
 			HookPoint.disable_collision = !HookPoint.disable_collision
 
-
+	DamageCooldown -= delta
 	queue_redraw()
 
 	
@@ -81,4 +91,9 @@ func _draw() -> void:
 	var fac = linear_velocity.length() / 2200.
 	var color = Color(1., 1. - fac, 1. - fac)
 	draw_texture_rect(Sprite, rect, false, color)
-	#draw_circle(Vector2(0, 0), 20., Color(linear_velocity.length() / 4000., 0, 1.))
+
+func Damage(amount : float) -> void:
+	if DamageCooldown < 0.:
+		Power -= amount / Autoload.PlayerDefenseLevel
+		DamageCooldown = .5
+		PowerDrainOverlay.cooldow = 1.

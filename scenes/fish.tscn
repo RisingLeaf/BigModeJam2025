@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5flfeowdnyb"]
+
+[ext_resource type="Script" path="res://scripts/fish.gd" id="1_nsbay"]
+[ext_resource type="Texture2D" uid="uid://d1kd2wtw5hksf" path="res://images/miner.png" id="2_g8ry8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6gsfr"]
+radius = 8.0
+
+[node name="Fish" type="Area2D" node_paths=PackedStringArray("Display")]
+scale = Vector2(4, 4)
+script = ExtResource("1_nsbay")
+Display = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_g8ry8")
+hframes = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6gsfr")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

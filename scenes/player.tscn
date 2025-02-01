@@ -29,6 +29,7 @@ physics_material_override = SubResource("PhysicsMaterial_w1pv8")
 gravity_scale = 0.5
 script = ExtResource("1_dbw4i")
 Sprite = ExtResource("2_07aap")
+ScenePath = "res://scenes/DeathScene.tscn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ncvu6")

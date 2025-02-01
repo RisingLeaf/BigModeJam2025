@@ -3,6 +3,7 @@ extends Area2D
 class_name Portal
 
 @export var PlayerInst : Player
+@export_file("*.tscn") var WonScene
 
 
 # Called when the node enters the scene tree for the first time.
@@ -17,4 +18,4 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
-		print("hi")
+		get_tree().call_deferred("change_scene_to_file", WonScene)

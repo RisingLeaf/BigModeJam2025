@@ -1,17 +1,20 @@
-[gd_scene load_steps=36 format=4 uid="uid://dbc3mvxb8ur5t"]
+[gd_scene load_steps=38 format=4 uid="uid://dbc3mvxb8ur5t"]
 
 [ext_resource type="Texture2D" uid="uid://bp550ekdeapc2" path="res://images/hookpoint button.png" id="2_3uf8v"]
 [ext_resource type="Texture2D" uid="uid://dnpwiorisudln" path="res://images/Background_A.JPG" id="2_xgun8"]
 [ext_resource type="Texture2D" uid="uid://clr1dxquofraq" path="res://images/start_selected.png" id="3_k68th"]
 [ext_resource type="Script" path="res://scripts/start.gd" id="3_mf4xg"]
+[ext_resource type="Script" path="res://scripts/power_drain.gd" id="3_xmc2g"]
 [ext_resource type="Texture2D" uid="uid://bc3xqid7ah70n" path="res://images/hookpoint button selected.png" id="3_yge4o"]
-[ext_resource type="Script" path="res://scripts/PowerDisplay.gd" id="4_52yjf"]
 [ext_resource type="Script" path="res://scripts/hook_point_placer.gd" id="4_yhxkl"]
 [ext_resource type="Texture2D" uid="uid://ulxny5be26h1" path="res://images/start.png" id="6_anmu0"]
 [ext_resource type="Script" path="res://scripts/HookPointDrawer.gd" id="8_i0oen"]
 [ext_resource type="Script" path="res://scripts/map_generator.gd" id="8_tf8mm"]
 [ext_resource type="Texture2D" uid="uid://cg3r4e2pkrvv1" path="res://images/unselected hookpoint.png" id="9_7f5pm"]
+[ext_resource type="Texture2D" uid="uid://evy8y58aujig" path="res://images/bar.png" id="10_lpymr"]
+[ext_resource type="Texture2D" uid="uid://cj3hi20ai1uv1" path="res://images/ba_innerr.png" id="11_5lfrn"]
 [ext_resource type="PackedScene" uid="uid://enbdi0pkwy0f" path="res://scenes/camera_2d.tscn" id="11_b1x8d"]
+[ext_resource type="Script" path="res://scripts/powerbar.gd" id="11_rn86o"]
 [ext_resource type="TileSet" uid="uid://breu25mcou247" path="res://scenes/main.tres" id="14_bkjpn"]
 [ext_resource type="Shader" path="res://scripts/pp.gdshader" id="14_kgou4"]
 [ext_resource type="Script" path="res://scripts/state_control.gd" id="15_7ss4k"]
@@ -19,8 +22,23 @@
 [ext_resource type="PackedScene" uid="uid://lmm7ey4g3hp" path="res://scenes/player.tscn" id="17_1a48t"]
 [ext_resource type="Script" path="res://scripts/animated_sprite_2d.gd" id="17_imnnu"]
 [ext_resource type="Script" path="res://scripts/Rope.gd" id="18_llqtx"]
-[ext_resource type="Script" path="res://scenes/fish.gd" id="20_jqwvp"]
-[ext_resource type="Texture2D" uid="uid://d1kd2wtw5hksf" path="res://images/miner.png" id="20_mq2d0"]
+[ext_resource type="Shader" path="res://scenes/power_drain.gdshader" id="22_x40u7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ib0ci"]
+shader = ExtResource("14_kgou4")
+shader_parameter/WATER_COL = Color(0.176471, 0.635294, 0.85098, 1)
+shader_parameter/WATER2_COL = Color(0.0588235, 0.529412, 0.776471, 1)
+shader_parameter/FOAM_COL = Color(0.87451, 0.988235, 1, 1)
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(5, 5)
+shader_parameter/offset = Vector2(0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3tqt5"]
+shader = ExtResource("22_x40u7")
+shader_parameter/alpha = 0.5
+shader_parameter/inner_radius = 0.0
+shader_parameter/outer_radius = 1.0
+shader_parameter/color = Color(0.443137, 0.666667, 0.203922, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_300du"]
 font_size = 12
@@ -103,21 +121,30 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ib0ci"]
-shader = ExtResource("14_kgou4")
-shader_parameter/WATER_COL = Color(0.176471, 0.635294, 0.85098, 1)
-shader_parameter/WATER2_COL = Color(0.0588235, 0.529412, 0.776471, 1)
-shader_parameter/FOAM_COL = Color(0.87451, 0.988235, 1, 1)
-shader_parameter/distortion_speed = 2.0
-shader_parameter/tile = Vector2(5, 5)
-shader_parameter/offset = Vector2(0, 0)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_6gsfr"]
-radius = 8.0
-
 [node name="Node2D" type="Node2D"]
 physics_interpolation_mode = 1
 texture_filter = 1
+
+[node name="PP" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="PP"]
+visible = false
+material = SubResource("ShaderMaterial_ib0ci")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PowerDrain" type="ColorRect" parent="PP"]
+material = SubResource("ShaderMaterial_3tqt5")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.443137, 0.666667, 0.203922, 1)
+script = ExtResource("3_xmc2g")
 
 [node name="StateControl" type="Node2D" parent="." node_paths=PackedStringArray("InGameOverlay", "PrestartOverlay", "PlayerInst", "ActionNode", "Camera")]
 script = ExtResource("15_7ss4k")
@@ -186,12 +213,22 @@ StateM = NodePath("../../../StateControl")
 
 [node name="InGame" type="CanvasLayer" parent="."]
 
-[node name="Power" type="Label" parent="InGame" node_paths=PackedStringArray("PlayerInst")]
-offset_right = 122.0
-offset_bottom = 55.0
-theme_override_font_sizes/font_size = 40
-text = "Power"
-script = ExtResource("4_52yjf")
+[node name="TextureProgressBar" type="TextureProgressBar" parent="InGame" node_paths=PackedStringArray("PlayerInst")]
+texture_filter = 1
+anchors_preset = -1
+anchor_left = 0.02
+anchor_top = 0.02
+anchor_right = 0.22
+anchor_bottom = 0.064
+offset_left = 0.399998
+offset_top = -0.4
+offset_right = -191.6
+offset_bottom = -24.08
+scale = Vector2(4, 4)
+value = 90.0
+texture_over = ExtResource("10_lpymr")
+texture_progress = ExtResource("11_5lfrn")
+script = ExtResource("11_rn86o")
 PlayerInst = NodePath("../../Action Stuff/Player")
 
 [node name="Background" type="CanvasLayer" parent="."]
@@ -228,12 +265,13 @@ script = ExtResource("8_i0oen")
 PlayerInst = NodePath("../Action Stuff/Player")
 PointTex = ExtResource("9_7f5pm")
 
-[node name="MapGenerator" type="Node2D" parent="." node_paths=PackedStringArray("TileMapToUse", "PlayerInst", "North", "East", "West", "South")]
+[node name="MapGenerator" type="Node2D" parent="." node_paths=PackedStringArray("TileMapToUse", "PlayerInst", "ActionNode", "North", "East", "West", "South")]
 script = ExtResource("8_tf8mm")
 TileMapToUse = NodePath("TileMapLayer")
 PlayerInst = NodePath("../Action Stuff/Player")
 LargeGridRes = 16
-LargeGridSize = 6
+LargeGridSize = 4
+ActionNode = NodePath("../Action Stuff")
 North = NodePath("../Action Stuff/WorldBorders/North")
 East = NodePath("../Action Stuff/WorldBorders/East")
 West = NodePath("../Action Stuff/WorldBorders/West")
@@ -241,6 +279,7 @@ South = NodePath("../Action Stuff/WorldBorders/South")
 BreakingBarrierPath = "res://scenes/conditionally_breaking.tscn"
 SpikePath = "res://scenes/spike.tscn"
 VolcanoPath = "res://scenes/bubble_emitter.tscn"
+FishPath = "res://scenes/fish.tscn"
 PortalPath = "res://scenes/portal.tscn"
 
 [node name="TileMapLayer" type="TileMapLayer" parent="MapGenerator"]
@@ -267,9 +306,10 @@ shape = SubResource("WorldBoundaryShape2D_bbvn0")
 [node name="South" type="CollisionShape2D" parent="Action Stuff/WorldBorders"]
 shape = SubResource("WorldBoundaryShape2D_bbvn0")
 
-[node name="Player" parent="Action Stuff" node_paths=PackedStringArray("RopeInst", "HookPoint") instance=ExtResource("17_1a48t")]
+[node name="Player" parent="Action Stuff" node_paths=PackedStringArray("RopeInst", "HookPoint", "PowerDrainOverlay") instance=ExtResource("17_1a48t")]
 RopeInst = NodePath("../HookStuff/Rope")
 HookPoint = NodePath("../HookStuff/PinJoint2D")
+PowerDrainOverlay = NodePath("../../PP/PowerDrain")
 
 [node name="HookStuff" type="Node2D" parent="Action Stuff"]
 
@@ -296,30 +336,3 @@ NodeA = NodePath("../PinJoint2D")
 NodeB = NodePath("../../Player")
 Width = 5
 Stretchyness = 500.0
-
-[node name="PP" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="ColorRect" type="ColorRect" parent="PP"]
-material = SubResource("ShaderMaterial_ib0ci")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Fish" type="Area2D" parent="." node_paths=PackedStringArray("PlayerInst", "Display")]
-scale = Vector2(4, 4)
-script = ExtResource("20_jqwvp")
-PlayerInst = NodePath("../Action Stuff/Player")
-Display = NodePath("Sprite2D")
-
-[node name="Sprite2D" type="Sprite2D" parent="Fish"]
-texture_filter = 1
-texture = ExtResource("20_mq2d0")
-hframes = 9
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Fish"]
-shape = SubResource("CircleShape2D_6gsfr")
-
-[connection signal="body_entered" from="Fish" to="Fish" method="_on_body_entered"]

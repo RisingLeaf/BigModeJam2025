@@ -9,6 +9,7 @@ radius = 15.0
 [node name="Portal" type="Area2D"]
 scale = Vector2(8, 8)
 script = ExtResource("1_8m4b8")
+WonScene = "res://scenes/WonScene.tscn"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_acue5")

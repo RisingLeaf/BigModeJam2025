@@ -7,15 +7,18 @@ class_name MapGen
 @export var LargeGridRes  : int
 @export var LargeGridSize : int
 
+@export var ActionNode : Node2D
+
 @export var North : CollisionShape2D
 @export var East  : CollisionShape2D
 @export var West  : CollisionShape2D
 @export var South : CollisionShape2D
 
 @export var BreakingBarrierPath : String
-@export var SpikePath : String
-@export var VolcanoPath : String
-@export var PortalPath : String
+@export var SpikePath           : String
+@export var VolcanoPath         : String
+@export var FishPath            : String
+@export var PortalPath          : String
 
 var grid_scale : Vector2
 
@@ -102,6 +105,9 @@ func randomized_a_star(large_scale_grid: Array, start: Vector2i, goal: Vector2i,
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	LargeGridSize += Autoload.Iterations
+	LargeGridRes  += sin(Autoload.Iterations) * 4
+	print(LargeGridRes)
 	var final_res = LargeGridRes * LargeGridSize
 	var player_start_pos = PlayerInst.position
 	grid_scale = Vector2(TileMapToUse.tile_set.tile_size) * TileMapToUse.scale
@@ -132,6 +138,7 @@ func _ready() -> void:
 	# 7 wall top
 	# 8 spikes
 	# 9 volcano
+	#10 fish
 	var path = randomized_a_star(large_scale_grid, Vector2i(0, 0), goal_large_grid_pos, LargeGridSize)
 
 	var hook_point_coords = []
@@ -151,10 +158,12 @@ func _ready() -> void:
 				large_scale_grid[node.x][node.y] = 6
 			elif preceding_node.x < node.x:
 				large_scale_grid[node.x][node.y] = 7
-		elif i > 1 and randi_range(0, 10) < 4:
+		elif i > 1 and randi_range(0, 10) < 3:
 			large_scale_grid[node.x][node.y] = 8
-		elif i > 1 and randi_range(0, 10) < 6:
+		elif i > 1 and randi_range(0, 10) < 4:
 			large_scale_grid[node.x][node.y] = 9
+		elif i > 1 and randi_range(0, 10) < 5:
+			large_scale_grid[node.x][node.y] = 10
 	large_scale_grid[0][0] = 2
 	large_scale_grid[goal_large_grid_pos.x][goal_large_grid_pos.y] = 3
 	
@@ -195,7 +204,7 @@ func _ready() -> void:
 				var instance := scene.instantiate() as Portal
 				instance.PlayerInst = PlayerInst
 				instance.position = Vector2(player_start_tile + large_coord) * grid_scale
-				add_child(instance)
+				ActionNode.add_child(instance)
 			elif large_scale_grid[i][j] == 1:
 				var sides = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0)]
 				for side in sides:
@@ -243,8 +252,8 @@ func _ready() -> void:
 								-(j + 0.5) * LargeGridRes + 1)
 								* grid_scale)
 					instance.rotation = PI * 0.5
-				add_child(instance)
-			if large_scale_grid[i][j] == 8: #spikes
+				ActionNode.add_child(instance)
+			elif large_scale_grid[i][j] == 8: #spikes
 				var scene = load(SpikePath)
 				# select side
 				var sides = [
@@ -278,8 +287,8 @@ func _ready() -> void:
 					instance.PlayerInst = PlayerInst
 					instance.position = place_position + Vector2(abs(side.y), -abs(side.x)) * (k + 0.5) * 64
 					instance.rotation = place_rotation
-					add_child(instance)
-			if large_scale_grid[i][j] == 9: #volcano
+					ActionNode.add_child(instance)
+			elif large_scale_grid[i][j] == 9: #volcano
 				var scene = load(VolcanoPath)
 				# select side
 				var sides = [
@@ -313,7 +322,16 @@ func _ready() -> void:
 					instance.position = place_position + 4 * Vector2(abs(side.y), -abs(side.x)) * (k + 0.5) * 64
 					instance.rotation = place_rotation
 					instance.emission_accu = randf_range(0., instance.EmissionTime)
-					add_child(instance)
+					ActionNode.add_child(instance)
+			elif large_scale_grid[i][j] == 10: #fish
+				var coord = Vector2(large_coord) * grid_scale
+				var scene = load(FishPath)
+				for k in range(2):
+					var instance := scene.instantiate() as Fish
+					instance.PlayerInst = PlayerInst
+					instance.position   = coord + Vector2(2 * grid_scale.x
+													* (-1 if k % 2 == 0 else 1), 0)
+					ActionNode.add_child(instance)
 	
 #	TileMapToUse.update_bitmask_region(lowest_corner, highest_corner)
 	for i in range(-2, final_res + 5):

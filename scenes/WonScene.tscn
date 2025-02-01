@@ -1,0 +1,241 @@
+[gd_scene load_steps=14 format=3 uid="uid://f4thcscp3bn2"]
+
+[ext_resource type="Script" path="res://scripts/won_scene.gd" id="1_c8gim"]
+[ext_resource type="Texture2D" uid="uid://dlkm8yo1w3rir" path="res://images/card.png" id="2_23h4k"]
+[ext_resource type="Texture2D" uid="uid://c2f3vybecyj06" path="res://images/continue-inactive.png" id="3_4xrfv"]
+[ext_resource type="Texture2D" uid="uid://duu3ffy8b6vbk" path="res://images/defense_up.png" id="3_m8i3o"]
+[ext_resource type="Texture2D" uid="uid://tb2wg13hpix0" path="res://images/power_up.png" id="3_vr2qe"]
+[ext_resource type="Texture2D" uid="uid://m7iijsjhs30" path="res://images/hook_extra.png" id="4_6f6yy"]
+[ext_resource type="Texture2D" uid="uid://dnpwiorisudln" path="res://images/Background_A.JPG" id="5_bvgnc"]
+[ext_resource type="Texture2D" uid="uid://csepra1u1lcy1" path="res://images/accel_up.png" id="5_yqkim"]
+[ext_resource type="Texture2D" uid="uid://bjv5unjhpe821" path="res://images/wall_break.png" id="6_moulj"]
+[ext_resource type="Texture2D" uid="uid://b8i1wie8aoq0o" path="res://images/force_up.png" id="7_51are"]
+[ext_resource type="Texture2D" uid="uid://qnteiggu8056" path="res://images/invictus.png" id="8_mmppn"]
+[ext_resource type="Texture2D" uid="uid://cxyp3meuakpgm" path="res://images/card_border.png" id="11_6ij3l"]
+[ext_resource type="Texture2D" uid="uid://djatx76bcvas4" path="res://images/continue.png" id="12_l8cq7"]
+
+[node name="WonScene" type="Control" node_paths=PackedStringArray("Continue", "OpATex", "OpADesc", "OpABord", "OpBTex", "OpBDesc", "OpBBord", "OpCTex", "OpCDesc", "OpCBord")]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_c8gim")
+MainGameFile = "res://scenes/main.tscn"
+Continue = NodePath("Continue Layout/Continue")
+ContinueInactiveTex = ExtResource("3_4xrfv")
+ContinueActiveTex = ExtResource("12_l8cq7")
+OpATex = NodePath("HBoxContainer/Option 1/Tex 1")
+OpADesc = NodePath("HBoxContainer/Option 1/Desc 1")
+OpABord = NodePath("HBoxContainer/Option 1/Border 1")
+OpBTex = NodePath("HBoxContainer/Option 2/Tex 2")
+OpBDesc = NodePath("HBoxContainer/Option 2/Desc 2")
+OpBBord = NodePath("HBoxContainer/Option 2/Border 2")
+OpCTex = NodePath("HBoxContainer/Option 3/Tex 3")
+OpCDesc = NodePath("HBoxContainer/Option 3/Desc 3")
+OpCBord = NodePath("HBoxContainer/Option 3/Border 3")
+PowerTex = ExtResource("3_vr2qe")
+DefenseTex = ExtResource("3_m8i3o")
+HookTex = ExtResource("4_6f6yy")
+AccelTex = ExtResource("5_yqkim")
+WallTex = ExtResource("6_moulj")
+ForceTex = ExtResource("7_51are")
+SaveTex = ExtResource("8_mmppn")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Control" type="Control" parent="Background"]
+z_as_relative = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Background/Control"]
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_bvgnc")
+expand_mode = 2
+stretch_mode = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 0.6
+offset_bottom = -3.05176e-05
+theme_override_constants/separation = 160
+alignment = 1
+
+[node name="Option 1" type="TextureRect" parent="HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+texture = ExtResource("2_23h4k")
+stretch_mode = 5
+
+[node name="Tex 1" type="TextureRect" parent="HBoxContainer/Option 1"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.094
+anchor_top = 0.208
+anchor_right = 0.906
+anchor_bottom = 0.486
+offset_left = -0.00800014
+offset_top = 0.0240002
+offset_right = 0.00799942
+offset_bottom = 0.00799942
+texture = ExtResource("3_vr2qe")
+
+[node name="Desc 1" type="RichTextLabel" parent="HBoxContainer/Option 1"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.125
+anchor_top = 0.514
+anchor_right = 0.875
+anchor_bottom = 0.778
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
+bbcode_enabled = true
+text = "[b]Power Up:[/b]
+Increase Power per run"
+
+[node name="Border 1" type="TextureRect" parent="HBoxContainer/Option 1"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.031
+anchor_top = 0.153
+anchor_right = 1.031
+anchor_bottom = 0.847
+offset_left = -0.0319998
+offset_top = -0.064003
+offset_right = 0.0319977
+offset_bottom = 0.0639801
+texture = ExtResource("11_6ij3l")
+
+[node name="Option 2" type="TextureRect" parent="HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+texture = ExtResource("2_23h4k")
+stretch_mode = 5
+
+[node name="Tex 2" type="TextureRect" parent="HBoxContainer/Option 2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.094
+anchor_top = 0.208
+anchor_right = 0.906
+anchor_bottom = 0.486
+offset_left = -0.00800014
+offset_top = 0.0240002
+offset_right = 0.00799942
+offset_bottom = 0.00799942
+texture = ExtResource("3_vr2qe")
+
+[node name="Desc 2" type="RichTextLabel" parent="HBoxContainer/Option 2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.125
+anchor_top = 0.514
+anchor_right = 0.875
+anchor_bottom = 0.778
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
+bbcode_enabled = true
+text = "[b]Power Up:[/b]
+Increase Power per run"
+
+[node name="Border 2" type="TextureRect" parent="HBoxContainer/Option 2"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.031
+anchor_top = 0.153
+anchor_right = 1.031
+anchor_bottom = 0.847
+offset_left = -0.0319998
+offset_top = -0.064003
+offset_right = 0.0319977
+offset_bottom = 0.0639801
+texture = ExtResource("11_6ij3l")
+
+[node name="Option 3" type="TextureRect" parent="HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+texture = ExtResource("2_23h4k")
+stretch_mode = 5
+
+[node name="Tex 3" type="TextureRect" parent="HBoxContainer/Option 3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.094
+anchor_top = 0.208
+anchor_right = 0.906
+anchor_bottom = 0.486
+offset_left = -0.00800014
+offset_top = 0.0240002
+offset_right = 0.00799942
+offset_bottom = 0.00799942
+texture = ExtResource("3_vr2qe")
+
+[node name="Desc 3" type="RichTextLabel" parent="HBoxContainer/Option 3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.125
+anchor_top = 0.514
+anchor_right = 0.875
+anchor_bottom = 0.778
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
+bbcode_enabled = true
+text = "[b]Power Up:[/b]
+Increase Power per run"
+
+[node name="Border 3" type="TextureRect" parent="HBoxContainer/Option 3"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.031
+anchor_top = 0.153
+anchor_right = 1.031
+anchor_bottom = 0.847
+offset_left = -0.0319998
+offset_top = -0.064003
+offset_right = 0.0319977
+offset_bottom = 0.0639801
+texture = ExtResource("11_6ij3l")
+
+[node name="Continue Layout" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.7
+anchor_right = 1.0
+anchor_bottom = 0.9
+alignment = 1
+
+[node name="Continue" type="TextureRect" parent="Continue Layout"]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+texture = ExtResource("12_l8cq7")
+expand_mode = 2
+stretch_mode = 5
+
+[connection signal="gui_input" from="HBoxContainer/Option 1" to="." method="_on_option_1_gui_input"]
+[connection signal="gui_input" from="HBoxContainer/Option 2" to="." method="_on_option_2_gui_input"]
+[connection signal="gui_input" from="HBoxContainer/Option 3" to="." method="_on_option_3_gui_input"]
+[connection signal="gui_input" from="Continue Layout/Continue" to="." method="_on_continue_gui_input"]

@@ -1,8 +1,9 @@
-extends Area2D
+extends ColorRect
 
-class_name Spike
+class_name PowerDrain
 
-@export var PlayerInst : Player
+var cooldow = 0.;
+var alpha   = 0.5
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -10,9 +11,6 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
-
-func _on_body_entered(body: Node2D) -> void:
-	if body is Player:
-		PlayerInst.Damage(10)
+func _process(delta: float) -> void:
+	cooldow -= delta
+	material.set_shader_parameter("alpha", cooldow * alpha * 0.5)

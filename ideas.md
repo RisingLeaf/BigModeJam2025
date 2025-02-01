@@ -17,9 +17,9 @@ Todo:
 	- Spikes (x)
 	- more interesting terrain [x]
 	- self placed hook points [x]
-	- enemies
+	- enemies [x]
 	Saturday:
-	- power ups
+	- power ups [x...]
 	- up drafts
 	- start menu
 	Sunday:

@@ -24,5 +24,5 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body == PlayerInst:
-		PlayerInst.Power -= 10
+		PlayerInst.Damage(10)
 	call_deferred("queue_free")
