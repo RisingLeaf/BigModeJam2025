@@ -8,6 +8,10 @@ class_name Player
 @export var ScenePath : String
 @export var PowerDrainOverlay : PowerDrain
 
+@export var AudioSource : AudioStreamPlayer2D
+@export_file("*.mp3") var HookAttachSounds : Array[String]
+@export_file("*.mp3") var HookDetachSounds : Array[String]
+
 
 var HookablePoints := [] as Array[Vector2]
 var DisabledHookPoints = [] as Array[Vector2]
@@ -30,10 +34,16 @@ func _input(event):
 		HookPoint.node_b = self.get_path()
 		RopeInst.visible = true
 		hooked = true
+		var Sound = load(HookAttachSounds.pick_random())
+		AudioSource.stream = Sound
+		AudioSource.play()
 	elif event.is_action_pressed("hook") and hooked:
 		HookPoint.node_b = ^""
 		RopeInst.visible = false
 		hooked = false
+		var Sound = load(HookDetachSounds.pick_random())
+		AudioSource.stream = Sound
+		AudioSource.play()
 
 func _process(delta: float) -> void:
 	if Power < 0.:

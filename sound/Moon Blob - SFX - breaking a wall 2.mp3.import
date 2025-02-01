@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://vncrgaqdy756"
+path="res://.godot/imported/Moon Blob - SFX - breaking a wall 2.mp3-d882c55d9eda83a7ad92caddabc62da5.mp3str"
+
+[deps]
+
+source_file="res://sound/Moon Blob - SFX - breaking a wall 2.mp3"
+dest_files=["res://.godot/imported/Moon Blob - SFX - breaking a wall 2.mp3-d882c55d9eda83a7ad92caddabc62da5.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

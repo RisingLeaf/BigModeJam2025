@@ -22,7 +22,7 @@ scale_min = 2.0
 scale_max = 4.0
 scale_over_velocity_max = 4.0
 
-[node name="Player" type="RigidBody2D"]
+[node name="Player" type="RigidBody2D" node_paths=PackedStringArray("AudioSource")]
 texture_filter = 1
 mass = 5.0
 physics_material_override = SubResource("PhysicsMaterial_w1pv8")
@@ -30,6 +30,9 @@ gravity_scale = 0.5
 script = ExtResource("1_dbw4i")
 Sprite = ExtResource("2_07aap")
 ScenePath = "res://scenes/DeathScene.tscn"
+AudioSource = NodePath("AudioStreamPlayer2D")
+HookAttachSounds = Array[String](["res://sound/Moon Blob - SFX - blob attach 1.mp3"])
+HookDetachSounds = Array[String](["res://sound/Moon Blob - SFX - blob release 1.mp3"])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ncvu6")
@@ -41,3 +44,8 @@ process_material = SubResource("ParticleProcessMaterial_l5wfj")
 texture = ExtResource("3_7we8l")
 lifetime = 0.5
 fixed_fps = 60
+
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+volume_db = -15.0

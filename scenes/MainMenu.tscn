@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=4 uid="uid://bfjicdqnt6pl1"]
 
-[ext_resource type="PackedScene" path="res://scenes/spike.tscn" id="1_2k70d"]
+[ext_resource type="PackedScene" uid="uid://oedyeastfmdh" path="res://scenes/spike.tscn" id="1_2k70d"]
 [ext_resource type="PackedScene" uid="uid://bcpl3vytffc5o" path="res://scenes/bubble_emitter.tscn" id="1_624bv"]
 [ext_resource type="TileSet" uid="uid://breu25mcou247" path="res://scenes/main.tres" id="1_yyb4b"]
 [ext_resource type="PackedScene" uid="uid://7uq6wv4hi33o" path="res://scenes/conditionally_breaking.tscn" id="3_nl1d7"]
@@ -174,6 +174,7 @@ scale = Vector2(512, 64)
 zoom = Vector2(0.1, 0.1)
 
 [node name="Player" parent="." node_paths=PackedStringArray("RopeInst", "HookPoint") instance=ExtResource("9_3v0e8")]
+position = Vector2(8, 2401)
 RopeInst = NodePath("../HookStuff/Rope")
 HookPoint = NodePath("../HookStuff/PinJoint2D")
 

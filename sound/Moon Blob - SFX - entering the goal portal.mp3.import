@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dm31cxeknhvoo"
+path="res://.godot/imported/Moon Blob - SFX - entering the goal portal.mp3-fe630159458f6cbfdffa8bc29dbf884a.mp3str"
+
+[deps]
+
+source_file="res://sound/Moon Blob - SFX - entering the goal portal.mp3"
+dest_files=["res://.godot/imported/Moon Blob - SFX - entering the goal portal.mp3-fe630159458f6cbfdffa8bc29dbf884a.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

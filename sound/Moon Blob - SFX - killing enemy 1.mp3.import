@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bjb8pf321hq1q"
+path="res://.godot/imported/Moon Blob - SFX - killing enemy 1.mp3-1a86951a82e98ab2bb775f04108d6ae5.mp3str"
+
+[deps]
+
+source_file="res://sound/Moon Blob - SFX - killing enemy 1.mp3"
+dest_files=["res://.godot/imported/Moon Blob - SFX - killing enemy 1.mp3-1a86951a82e98ab2bb775f04108d6ae5.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -9,12 +9,15 @@ size = Vector2(1, 1)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3hnac"]
 size = Vector2(1, 1)
 
-[node name="Conditionally Breaking" type="StaticBody2D" node_paths=PackedStringArray("Collider")]
+[node name="Conditionally Breaking" type="StaticBody2D" node_paths=PackedStringArray("Collider", "SoundSource")]
 z_as_relative = false
 script = ExtResource("1_i2j85")
 Collider = NodePath("Area2D")
 Threshold = 1000.0
 Sprite = ExtResource("2_4vnwc")
+SoundSource = NodePath("AudioStreamPlayer2D")
+WallbreakSounds = Array[String](["res://sound/Moon Blob - SFX - breaking a wall 1.mp3", "res://sound/Moon Blob - SFX - breaking a wall 2.mp3"])
+WallstableSounds = Array[String](["res://sound/Moon Blob - SFX - going to slow 1.mp3"])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_m3maj")
@@ -23,3 +26,9 @@ shape = SubResource("RectangleShape2D_m3maj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_3hnac")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+volume_db = -15.0
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
