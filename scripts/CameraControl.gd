@@ -4,14 +4,15 @@ class_name CameraControl
 
 @export var PlayerInst : Player
 @export var goal_zoom : float
+@export var free_zoom := Vector2(0.2, 0.2)
 
 var follow_mode   := false
-var control_taken := false
+@export var control_taken := false
 const CameraSpeed := 2000.
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	zoom = free_zoom
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -22,7 +23,7 @@ func _process(delta: float) -> void:
 			var diff = PlayerInst.position - position
 			position = position + (diff) * delta * 4.
 		else:
-			zoom = Vector2(0.2, 0.2)
+			zoom = free_zoom
 			if Input.is_action_pressed("Up"):
 				position += Vector2(0, -CameraSpeed) * delta
 			elif Input.is_action_pressed("Down"):

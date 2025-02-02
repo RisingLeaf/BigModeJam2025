@@ -19,7 +19,7 @@ Todo:
 	- self placed hook points [x]
 	- enemies [x]
 	Saturday:
-	- power ups [x...]
+	- power ups [x]
 	- up drafts
 	- start menu
 	Sunday:

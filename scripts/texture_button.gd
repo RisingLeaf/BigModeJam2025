@@ -7,6 +7,7 @@ func _button_pressed():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Autoload.reset()
 	pressed.connect(self._button_pressed)
 
 

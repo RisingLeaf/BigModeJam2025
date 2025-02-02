@@ -2,8 +2,9 @@ extends Node2D
 
 class_name MapGen
 
-@export var TileMapToUse : TileMapLayer
+@export var TileMapToUse  : TileMapLayer
 @export var PlayerInst    : Player
+@export var State         : StateControl
 @export var LargeGridRes  : int
 @export var LargeGridSize : int
 
@@ -21,6 +22,7 @@ class_name MapGen
 @export var PortalPath          : String
 
 var grid_scale : Vector2
+var barriers   : Array[BreakingBarrier]
 
 
 func fill_line(start : Vector2i, direction : Vector2i, length : int, id : int, tile : Vector2i) -> void:
@@ -107,7 +109,6 @@ func randomized_a_star(large_scale_grid: Array, start: Vector2i, goal: Vector2i,
 func _ready() -> void:
 	LargeGridSize += Autoload.Iterations
 	LargeGridRes  += sin(Autoload.Iterations) * 4
-	print(LargeGridRes)
 	var final_res = LargeGridRes * LargeGridSize
 	var player_start_pos = PlayerInst.position
 	grid_scale = Vector2(TileMapToUse.tile_set.tile_size) * TileMapToUse.scale
@@ -148,8 +149,13 @@ func _ready() -> void:
 		if i % 4 == 0:
 			hook_point_coords.append(node)
 		large_scale_grid[node.x][node.y] = 1
+		
 		if i > 1 and randi_range(0, 10) < 2:
-			var preceding_node = path[i - 1]
+			large_scale_grid[node.x][node.y] = 8 # spikes
+		elif i > 1 and randi_range(0, 10) < 3:
+			large_scale_grid[node.x][node.y] = 10 # fish
+		elif i > 1 and randi_range(0, 10) < 3:
+			var preceding_node = path[i - 1] # walls
 			if preceding_node.y > node.y:
 				large_scale_grid[node.x][node.y] = 4
 			elif preceding_node.x > node.x:
@@ -158,12 +164,8 @@ func _ready() -> void:
 				large_scale_grid[node.x][node.y] = 6
 			elif preceding_node.x < node.x:
 				large_scale_grid[node.x][node.y] = 7
-		elif i > 1 and randi_range(0, 10) < 3:
-			large_scale_grid[node.x][node.y] = 8
 		elif i > 1 and randi_range(0, 10) < 4:
-			large_scale_grid[node.x][node.y] = 9
-		elif i > 1 and randi_range(0, 10) < 5:
-			large_scale_grid[node.x][node.y] = 10
+			large_scale_grid[node.x][node.y] = 9 # volcano
 	large_scale_grid[0][0] = 2
 	large_scale_grid[goal_large_grid_pos.x][goal_large_grid_pos.y] = 3
 	
@@ -203,7 +205,8 @@ func _ready() -> void:
 				var scene = load(PortalPath)
 				var instance := scene.instantiate() as Portal
 				instance.PlayerInst = PlayerInst
-				instance.position = Vector2(player_start_tile + large_coord) * grid_scale
+				instance.position   = Vector2(player_start_tile + large_coord) * grid_scale
+				instance.State      = State
 				ActionNode.add_child(instance)
 			elif large_scale_grid[i][j] == 1:
 				var sides = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0)]
@@ -217,7 +220,7 @@ func _ready() -> void:
 									)
 					var direction = Vector2i(abs(side.y), abs(side.x))
 					for k in range(LargeGridRes/4):
-						var height = randi_range(0, LargeGridRes / 8) * 2
+						var height = randi_range(1, LargeGridRes / 8) * 2
 						fill_rect(side_start + k * 4 * Vector2i(direction.x, -direction.y),
 							height * -Vector2i(side.x, side.y) + 4 * direction, tile_set_id, tile_to_use)
 
@@ -252,6 +255,7 @@ func _ready() -> void:
 								-(j + 0.5) * LargeGridRes + 1)
 								* grid_scale)
 					instance.rotation = PI * 0.5
+				barriers.append(instance)
 				ActionNode.add_child(instance)
 			elif large_scale_grid[i][j] == 8: #spikes
 				var scene = load(SpikePath)
@@ -326,11 +330,11 @@ func _ready() -> void:
 			elif large_scale_grid[i][j] == 10: #fish
 				var coord = Vector2(large_coord) * grid_scale
 				var scene = load(FishPath)
-				for k in range(2):
+				for k in range(randi_range(1, 4)):
 					var instance := scene.instantiate() as Fish
 					instance.PlayerInst = PlayerInst
-					instance.position   = coord + Vector2(2 * grid_scale.x
-													* (-1 if k % 2 == 0 else 1), 0)
+					instance.position   = coord + Vector2(randi_range(-4, 4) * grid_scale.x,
+														 randi_range(-4, 4) * grid_scale.y)
 					ActionNode.add_child(instance)
 	
 #	TileMapToUse.update_bitmask_region(lowest_corner, highest_corner)
@@ -344,3 +348,10 @@ func _ready() -> void:
 func is_field_free(pos : Vector2) -> bool:
 	var grid_pos = Vector2i(floor(pos / grid_scale))
 	return TileMapToUse.get_cell_source_id(grid_pos) == -1
+
+func destroy_wall_at_mouse(pos : Vector2) -> bool:
+	for wall in barriers:
+		if wall.mouse_in_rect(pos):
+			wall.queue_free()
+			return true
+	return false

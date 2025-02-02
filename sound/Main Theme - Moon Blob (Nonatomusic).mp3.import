@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c2fr7w8pgocum"
+path="res://.godot/imported/Main Theme - Moon Blob (Nonatomusic).mp3-cd6e665a4fda752da89c3641da96981f.mp3str"
+
+[deps]
+
+source_file="res://sound/Main Theme - Moon Blob (Nonatomusic).mp3"
+dest_files=["res://.godot/imported/Main Theme - Moon Blob (Nonatomusic).mp3-cd6e665a4fda752da89c3641da96981f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

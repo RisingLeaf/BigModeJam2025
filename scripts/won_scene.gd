@@ -125,15 +125,15 @@ func _on_continue_gui_input(event: InputEvent) -> void:
 			Types.power:
 				Autoload.PlayerPowerLevel   += 20
 			Types.defense:
-				Autoload.PlayerDefenseLevel += 0.5
+				Autoload.PlayerDefenseLevel += 0.3
 			Types.hook_point:
 				Autoload.PlacableHookpoints += 1
 			Types.accel:
-				Autoload.PlayerAccel += 0.4
+				Autoload.PlayerAccel += 0.2
 			Types.wall:
 				Autoload.DestroyableWalls += 1
 			Types.force:
-				Autoload.PlayerForceLevel += 0.2
+				Autoload.PlayerForceLevel *= 0.9
 			Types.save:
 				Autoload.PlayerSaves += 1
 		Autoload.Iterations += 1

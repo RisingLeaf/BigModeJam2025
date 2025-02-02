@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bvyhkt8rp0or7"
+path="res://.godot/imported/Gameplay Loop - Moon Blob (Nonatomusic).mp3-5b3c156c60a05e96af1547b2e8b31b67.mp3str"
+
+[deps]
+
+source_file="res://sound/Gameplay Loop - Moon Blob (Nonatomusic).mp3"
+dest_files=["res://.godot/imported/Gameplay Loop - Moon Blob (Nonatomusic).mp3-5b3c156c60a05e96af1547b2e8b31b67.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

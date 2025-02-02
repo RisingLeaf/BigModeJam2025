@@ -91,6 +91,7 @@ func _process(delta: float) -> void:
 			# not ideal but works
 			HookPoint.disable_collision = !HookPoint.disable_collision
 			HookPoint.disable_collision = !HookPoint.disable_collision
+			Power -= delta * 1.
 
 	DamageCooldown -= delta
 	queue_redraw()

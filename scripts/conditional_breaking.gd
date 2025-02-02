@@ -2,16 +2,16 @@ extends StaticBody2D
 
 class_name BreakingBarrier
 
-@export var Collider : Area2D
+@export var Collider   : Area2D
 @export var PlayerInst : RigidBody2D
-@export var Threshold : float
-@export var Sprite : Texture2D
+@export var Threshold  : float
+@export var Sprite     : Texture2D
+@export var rect       : CollisionShape2D
 
 @export var SoundSource : AudioStreamPlayer2D
 @export_file("*.mp3") var WallbreakSounds : Array[String]
 @export_file("*.mp3") var WallstableSounds : Array[String]
 
-var connected = false
 var dead = false
 var cooldown = 2.
 
@@ -44,7 +44,7 @@ func _process(delta: float) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not dead:
-		if PlayerInst.linear_velocity.length() > Threshold:
+		if PlayerInst.linear_velocity.length() > Threshold * Autoload.PlayerForceLevel:
 			dead = true
 			get_node("CollisionShape2D").disabled
 			var Sound = load(WallbreakSounds.pick_random())

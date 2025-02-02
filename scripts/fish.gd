@@ -3,7 +3,7 @@ extends Area2D
 class_name Fish
 
 @export var PlayerInst : Player
-@export var Speed      := 300. as float
+@export var Speed      := 500. as float
 @export var AnimSpeed  := 0.4 as float
 @export var Display    : Sprite2D
 
