@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=4 uid="uid://bfjicdqnt6pl1"]
+[gd_scene load_steps=48 format=4 uid="uid://bfjicdqnt6pl1"]
 
 [ext_resource type="PackedScene" uid="uid://oedyeastfmdh" path="res://scenes/spike.tscn" id="1_2k70d"]
 [ext_resource type="Texture2D" uid="uid://dnpwiorisudln" path="res://images/Background_A.JPG" id="1_6hh3a"]
@@ -29,6 +29,7 @@
 [ext_resource type="Texture2D" uid="uid://bg7avyy1gcy4f" path="res://images/leaf_logo.png" id="19_o6eob"]
 [ext_resource type="Script" path="res://scripts/story.gd" id="21_qv0gp"]
 [ext_resource type="Texture2D" uid="uid://vwcttay7oi35" path="res://images/nonatologo.png" id="21_rmb1l"]
+[ext_resource type="AudioStream" uid="uid://bvyhkt8rp0or7" path="res://sound/Gameplay Loop - Moon Blob (Nonatomusic).mp3" id="24_rtjv0"]
 [ext_resource type="Script" path="res://scripts/main_state_control.gd" id="29_okcym"]
 [ext_resource type="Script" path="res://scripts/HookPointDrawer.gd" id="30_tly12"]
 [ext_resource type="Shader" path="res://scenes/power_drain.gdshader" id="34_acf2e"]
@@ -383,8 +384,7 @@ stream = ExtResource("13_ccqmo")
 autoplay = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("13_ccqmo")
-autoplay = true
+stream = ExtResource("24_rtjv0")
 
 [node name="HookPointDrawer" type="Node2D" parent="." node_paths=PackedStringArray("PlayerInst")]
 texture_filter = 1

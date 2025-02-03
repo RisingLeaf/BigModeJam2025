@@ -26,6 +26,8 @@ var end = false
 var death = false
 var countdown = 2.
 
+var main_menu = true
+
 var preprestart = false
 var prestart_countdown = 1.
 
@@ -43,6 +45,7 @@ func _ready() -> void:
 	set_menu()
 
 func set_menu() -> void:
+	main_menu = true
 	InGameOverlay.visible   = false
 	PrestartOverlay.visible = false
 	
@@ -52,6 +55,7 @@ func set_menu() -> void:
 	paused                        = false
 
 func set_preprestart() -> void:
+	main_menu = false
 	InGameOverlay.visible   = false
 	PrestartOverlay.visible = false
 	
@@ -110,6 +114,8 @@ func set_in_game() -> void:
 
 func _process(delta: float) -> void:
 	#print("Info " + str(prestart) + " " + str(paused) + " " + str(timer))
+	if TitleMusic.finished and not Music.playing and not main_menu:
+		Music.play()
 	if preprestart:
 		prestart_countdown -= delta
 		if prestart_countdown < 0.:
