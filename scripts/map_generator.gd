@@ -26,12 +26,12 @@ var barriers   : Array[BreakingBarrier]
 
 
 func fill_line(start : Vector2i, direction : Vector2i, length : int, id : int, tile : Vector2i) -> void:
-	for i in range(length):
-		TileMapToUse.set_cell(start + direction * i, id, tile)
+	for i in range(abs(length)):
+		TileMapToUse.set_cell(start + direction * i * sign(length), id, tile)
 
 func fill_rect(start : Vector2i, extent :Vector2i, id : int, tile : Vector2i) -> void:
-	for i in range(extent.x):
-		fill_line(start + Vector2i(i, 0), Vector2i(0, -1), extent.y, id, tile)
+	for i in range(abs(extent.x)):
+		fill_line(start + Vector2i(i, 0) * sign(extent.x), Vector2i(0, -1), extent.y, id, tile)
 
 # A helper function to compute Manhattan distance as the heuristic
 func heuristic(a: Vector2, b: Vector2) -> int:
@@ -150,11 +150,11 @@ func _ready() -> void:
 			hook_point_coords.append(node)
 		large_scale_grid[node.x][node.y] = 1
 		
-		if i > 1 and randi_range(0, 10) < 2:
+		if i > 1 and randi_range(0, 10) < 3:
 			large_scale_grid[node.x][node.y] = 8 # spikes
 		elif i > 1 and randi_range(0, 10) < 3:
 			large_scale_grid[node.x][node.y] = 10 # fish
-		elif i > 1 and randi_range(0, 10) < 3:
+		elif i > 1 and randi_range(0, 10) < 4:
 			var preceding_node = path[i - 1] # walls
 			if preceding_node.y > node.y:
 				large_scale_grid[node.x][node.y] = 4
@@ -337,9 +337,38 @@ func _ready() -> void:
 														 randi_range(-4, 4) * grid_scale.y)
 					ActionNode.add_child(instance)
 	
-#	TileMapToUse.update_bitmask_region(lowest_corner, highest_corner)
-	for i in range(-2, final_res + 5):
-		for j in range(-2, final_res + 5):
+	# Now generate out shape
+	const sides = [
+		Vector2i(-1, 0), 
+		Vector2i( 1, 0),
+		Vector2i( 0,-1),
+		Vector2i( 0, 1)
+	]
+	var max_dent = LargeGridSize * 4
+	for side in sides:
+		var a = (final_res) / 2 + 8 as int
+		var start_pos = lowest_corner
+		if side.x > 0:
+			start_pos.x += final_res
+		if side.y > 0:
+			start_pos.y -= final_res
+		for i in range(-2, (final_res) / 2 + 2):
+			# f(x) = 1-((1)/(a)) (x-((a)/(2)))^(2)
+			var moved = (i + 4 - (a / 2.))
+			var squared = moved * moved
+			var scaled = (4. / (a * a))
+			var height_in_place = 1. - scaled * squared
+			height_in_place = int(height_in_place * max_dent) + randi_range(-2, 2)
+			print(i * 2 * Vector2i(abs(side.y), -abs(side.x)))
+			print(height_in_place * side + 2 * Vector2i(abs(side.y), abs(side.x)))
+			fill_rect( start_pos - Vector2i(1, 0) + i * 2 * Vector2i(abs(side.y), -abs(side.x)),
+					   height_in_place * side + 2 * Vector2i(abs(side.y), -abs(side.x)),
+					   tile_set_id, tile_to_use)
+			
+		
+	
+	for i in range(-2 - LargeGridSize * 4, final_res + 5 + LargeGridSize * 4):
+		for j in range(-2 - LargeGridSize * 4, final_res + 5 + LargeGridSize * 4):
 			TileMapToUse.set_cells_terrain_connect(
 				[lowest_corner + Vector2i(i - 2, -j + 2)], 0, 1
 			)

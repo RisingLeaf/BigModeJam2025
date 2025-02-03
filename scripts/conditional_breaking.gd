@@ -6,7 +6,6 @@ class_name BreakingBarrier
 @export var PlayerInst : RigidBody2D
 @export var Threshold  : float
 @export var Sprite     : Texture2D
-@export var rect       : CollisionShape2D
 
 @export var SoundSource : AudioStreamPlayer2D
 @export_file("*.mp3") var WallbreakSounds : Array[String]
@@ -46,7 +45,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player and not dead:
 		if PlayerInst.linear_velocity.length() > Threshold * Autoload.PlayerForceLevel:
 			dead = true
-			get_node("CollisionShape2D").disabled
 			var Sound = load(WallbreakSounds.pick_random())
 			SoundSource.stream = Sound
 			SoundSource.play()

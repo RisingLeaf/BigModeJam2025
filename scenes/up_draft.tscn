@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://bff82hsm227al"]
+
+[ext_resource type="Script" path="res://scripts/updraft.gd" id="1_fs5uj"]
+[ext_resource type="Texture2D" uid="uid://drgbpnwslid7p" path="res://images/updraft-particle.png" id="2_gbn6j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rrlwq"]
+size = Vector2(64, 64)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_syp7k"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(32, 1, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(1, -1, 0)
+gravity = Vector3(0, -800, 0)
+scale_min = 2.0
+scale_max = 4.0
+
+[node name="UpDraft" type="Area2D" node_paths=PackedStringArray("PlayerInst")]
+scale = Vector2(8, 8)
+script = ExtResource("1_fs5uj")
+PlayerInst = NodePath("")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rrlwq")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(0, 32.25)
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_syp7k")
+texture = ExtResource("2_gbn6j")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

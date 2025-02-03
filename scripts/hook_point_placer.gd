@@ -18,7 +18,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and attached and TileMapInst.is_field_free(Camera.get_global_mouse_position()):
 		PlayerInst.HookablePoints.append(Camera.get_global_mouse_position())
-		PlayerInst.DisabledHookPoints = PlayerInst.HookablePoints
+		PlayerInst.DisabledHookPoints = PlayerInst.HookablePoints.duplicate()
 		HookPoints -= 1
 		attached = false
 

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://d2cbh48it8bwh"]
+[gd_scene load_steps=7 format=3 uid="uid://d2cbh48it8bwh"]
 
 [ext_resource type="Texture2D" uid="uid://bxbbhyxs4rpfu" path="res://images/splashed.png" id="1_jwjcf"]
 [ext_resource type="Texture2D" uid="uid://cgn5phsv02ct8" path="res://images/restart.png" id="2_8lkhm"]
 [ext_resource type="Texture2D" uid="uid://dnpwiorisudln" path="res://images/Background_A.JPG" id="2_41f2x"]
 [ext_resource type="Texture2D" uid="uid://ddnfiyamek4l2" path="res://images/restart_selected.png" id="3_jfu5x"]
 [ext_resource type="Script" path="res://scripts/texture_button.gd" id="4_jy7db"]
+[ext_resource type="AudioStream" uid="uid://byerlxkymaled" path="res://sound/Game Over - Moon Blob (Nonatomusic).mp3" id="6_by3lw"]
 
 [node name="DeathScene" type="Control"]
 texture_filter = 1
@@ -72,3 +73,7 @@ grow_vertical = 2
 texture = ExtResource("2_41f2x")
 expand_mode = 2
 stretch_mode = 6
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_by3lw")
+autoplay = true

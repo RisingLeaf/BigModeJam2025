@@ -2,7 +2,6 @@ extends TextureButton
 
 
 @export var PlayerInst   : Player
-@export var TileMapInst  : MapGen
 @export var Camera       : CameraControl
 @export var PointTex     : Texture2D
 @export var Counter      : Label

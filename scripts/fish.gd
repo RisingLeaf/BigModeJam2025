@@ -7,6 +7,11 @@ class_name Fish
 @export var AnimSpeed  := 0.4 as float
 @export var Display    : Sprite2D
 
+@export var SoundSource : AudioStreamPlayer2D
+
+@export_file("*.mp3") var Killsounds : Array[String]
+@export_file("*.mp3") var Hitsounds : Array[String]
+
 var anim_accu  = 0.
 var anim_state = 0
 
@@ -41,4 +46,11 @@ func _on_body_entered(body: Node2D) -> void:
 	if body is Player and not death_spiral:
 		if PlayerInst.linear_velocity.length() < 1000.:
 			PlayerInst.Damage(10.)
+			var Sound = load(Hitsounds.pick_random())
+			SoundSource.stream = Sound
+			SoundSource.play()
+		else:
+			var Sound = load(Killsounds.pick_random())
+			SoundSource.stream = Sound
+			SoundSource.play()
 		death_spiral = true

@@ -25,7 +25,8 @@ enum Types {
 	accel,
 	wall,
 	force,
-	save
+	save,
+	updraft
 }
 
 const Descriptions = {
@@ -35,7 +36,8 @@ const Descriptions = {
 	Types.accel      : "[b]Accel Up:[/b]\nIncrease acceleration around hook.",
 	Types.wall       : "[b]Wall break:[/b]\nBreak one wall before starting the run.",
 	Types.force      : "[b]Force Up:[/b]\nBreak walls and kill enemies easier.",
-	Types.save       : "[b]Invictus:[/b]\nSaves you from splashing once."
+	Types.save       : "[b]Invictus:[/b]\nSaves you from splashing once.",
+	Types.updraft    : "[b]Plasma Wind:[/b]\nPushes you upwards very fast."
 }
 
 @export_category("Textures")
@@ -46,6 +48,7 @@ const Descriptions = {
 @export var WallTex    : Texture2D
 @export var ForceTex   : Texture2D
 @export var SaveTex    : Texture2D
+@export var UpdraftTex : Texture2D
 
 var options : Array[Types]
 var selected = -1 as int
@@ -75,6 +78,8 @@ func _ready() -> void:
 				tex = ForceTex
 			Types.save:
 				tex = SaveTex
+			Types.updraft:
+				tex = UpdraftTex
 		var rec : TextureRect
 		var desc : RichTextLabel
 		match i:
@@ -120,7 +125,7 @@ func _on_option_3_gui_input(event: InputEvent) -> void:
 
 
 func _on_continue_gui_input(event: InputEvent) -> void:
-	if selected >= 0:
+	if event is InputEventMouseButton and event.pressed and selected >= 0:
 		match options[selected - 1]:
 			Types.power:
 				Autoload.PlayerPowerLevel   += 20
@@ -136,5 +141,7 @@ func _on_continue_gui_input(event: InputEvent) -> void:
 				Autoload.PlayerForceLevel *= 0.9
 			Types.save:
 				Autoload.PlayerSaves += 1
+			Types.updraft:
+				Autoload.PlayerUpdrafts += 1
 		Autoload.Iterations += 1
 		get_tree().call_deferred("change_scene_to_file", MainGameFile)

@@ -11,6 +11,7 @@ class_name StateControl
 @export var Music           : AudioStreamPlayer
 
 @export_file("*.tscn") var WonScene
+@export_file("*.tscn") var DeathScene
 
 var paused       : bool
 var prestart     := false
@@ -57,11 +58,22 @@ func set_in_game() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
+	if PlayerInst.Power < 0.:
+		if Autoload.PlayerSaves > 0:
+			Autoload.PlayerSaves -= 1
+			PlayerInst.Power = 100.
+		else:
+			end_level(true)
+			
 	if end:
 		countdown -= delta
 		Music.volume_db -= delta * 10
 		if countdown < 0.:
-			get_tree().call_deferred("change_scene_to_file", WonScene)
+			if death:
+				get_tree().call_deferred("change_scene_to_file", DeathScene)
+			else:
+				get_tree().call_deferred("change_scene_to_file", WonScene)
 	if prestart:
 		timer -= delta
 		if timer < 0.:

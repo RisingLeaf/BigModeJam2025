@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://f4thcscp3bn2"]
+[gd_scene load_steps=15 format=3 uid="uid://f4thcscp3bn2"]
 
 [ext_resource type="Script" path="res://scripts/won_scene.gd" id="1_c8gim"]
 [ext_resource type="Texture2D" uid="uid://dlkm8yo1w3rir" path="res://images/card.png" id="2_23h4k"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://b8i1wie8aoq0o" path="res://images/force_up.png" id="7_51are"]
 [ext_resource type="Texture2D" uid="uid://qnteiggu8056" path="res://images/invictus.png" id="8_mmppn"]
 [ext_resource type="Texture2D" uid="uid://cxyp3meuakpgm" path="res://images/card_border.png" id="11_6ij3l"]
+[ext_resource type="Texture2D" uid="uid://do0k5cg0703vi" path="res://images/up_draft.png" id="11_xhx0h"]
 [ext_resource type="Texture2D" uid="uid://djatx76bcvas4" path="res://images/continue.png" id="12_l8cq7"]
 
 [node name="WonScene" type="Control" node_paths=PackedStringArray("Continue", "OpATex", "OpADesc", "OpABord", "OpBTex", "OpBDesc", "OpBBord", "OpCTex", "OpCDesc", "OpCBord")]
@@ -43,6 +44,7 @@ AccelTex = ExtResource("5_yqkim")
 WallTex = ExtResource("6_moulj")
 ForceTex = ExtResource("7_51are")
 SaveTex = ExtResource("8_mmppn")
+UpdraftTex = ExtResource("11_xhx0h")
 
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
@@ -106,6 +108,7 @@ anchor_left = 0.125
 anchor_top = 0.514
 anchor_right = 0.875
 anchor_bottom = 0.778
+mouse_filter = 1
 theme_override_font_sizes/normal_font_size = 12
 theme_override_font_sizes/bold_font_size = 12
 bbcode_enabled = true

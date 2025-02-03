@@ -29,7 +29,6 @@ physics_material_override = SubResource("PhysicsMaterial_w1pv8")
 gravity_scale = 0.5
 script = ExtResource("1_dbw4i")
 Sprite = ExtResource("2_07aap")
-ScenePath = "res://scenes/DeathScene.tscn"
 AudioSource = NodePath("AudioStreamPlayer2D")
 HookAttachSounds = Array[String](["res://sound/Moon Blob - SFX - blob attach 1.mp3"])
 HookDetachSounds = Array[String](["res://sound/Moon Blob - SFX - blob release 1.mp3"])

@@ -6,10 +6,13 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_6gsfr"]
 radius = 8.0
 
-[node name="Fish" type="Area2D" node_paths=PackedStringArray("Display")]
+[node name="Fish" type="Area2D" node_paths=PackedStringArray("Display", "SoundSource")]
 scale = Vector2(4, 4)
 script = ExtResource("1_nsbay")
 Display = NodePath("Sprite2D")
+SoundSource = NodePath("FishDead")
+Killsounds = Array[String](["res://sound/Moon Blob - SFX - killing enemy 1.mp3", "res://sound/Moon Blob - SFX - killing enemy 2.mp3"])
+Hitsounds = Array[String](["res://sound/Moon Blob - SFX - getting hit by enemy being 1.mp3", "res://sound/Moon Blob - SFX - getting hit by enemy being 2.mp3"])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -19,6 +22,6 @@ hframes = 9
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_6gsfr")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="FishDead" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

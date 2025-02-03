@@ -5,7 +5,6 @@ class_name Player
 @export var Sprite : Texture2D
 @export var RopeInst : Rope
 @export var HookPoint : PinJoint2D
-@export var ScenePath : String
 @export var PowerDrainOverlay : PowerDrain
 
 @export var AudioSource : AudioStreamPlayer2D
@@ -46,12 +45,6 @@ func _input(event):
 		AudioSource.play()
 
 func _process(delta: float) -> void:
-	if Power < 0.:
-		if Autoload.PlayerSaves > 0:
-			Autoload.PlayerSaves -= 1
-			Power = 100.
-		else:
-			get_tree().call_deferred("change_scene_to_file", ScenePath)
 	if not hooked:
 		var space_state = get_world_2d().direct_space_state
 		var min_length = INF
@@ -78,12 +71,12 @@ func _process(delta: float) -> void:
 			var accel_vector = (HookPoint.position - position).normalized()
 			accel_vector = Vector2(-accel_vector.y, accel_vector.x)
 			apply_force(accel_vector * accel)
-			Power -= delta * 2.
+			Power -= delta * 1.
 		elif Input.is_action_pressed("accel cw"):
 			var accel_vector = (position - HookPoint.position).normalized()
 			accel_vector = Vector2(-accel_vector.y, accel_vector.x)
 			apply_force(accel_vector * accel)
-			Power -= delta * 2.
+			Power -= delta * 1.
 			
 		var connection = position - HookPoint.position
 		if Input.is_action_pressed("pull in") and connection.length() > 100.:
@@ -91,7 +84,7 @@ func _process(delta: float) -> void:
 			# not ideal but works
 			HookPoint.disable_collision = !HookPoint.disable_collision
 			HookPoint.disable_collision = !HookPoint.disable_collision
-			Power -= delta * 1.
+			Power -= delta * 0.5
 
 	DamageCooldown -= delta
 	queue_redraw()

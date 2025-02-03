@@ -21,8 +21,7 @@ Todo:
 	Saturday:
 	- power ups [x]
 	- up drafts
-	- start menu
+	- start menu [x]
 	Sunday:
 	- Story
-	- Cutscenes
 	- special sauce

@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=4 uid="uid://dbc3mvxb8ur5t"]
+[gd_scene load_steps=47 format=4 uid="uid://dbc3mvxb8ur5t"]
 
 [ext_resource type="Texture2D" uid="uid://bp550ekdeapc2" path="res://images/hookpoint button.png" id="2_3uf8v"]
 [ext_resource type="Texture2D" uid="uid://dnpwiorisudln" path="res://images/Background_A.JPG" id="2_xgun8"]
@@ -16,12 +16,15 @@
 [ext_resource type="PackedScene" uid="uid://enbdi0pkwy0f" path="res://scenes/camera_2d.tscn" id="11_b1x8d"]
 [ext_resource type="Script" path="res://scripts/powerbar.gd" id="11_rn86o"]
 [ext_resource type="Texture2D" uid="uid://cw2keidxjd5t2" path="res://images/dynamite.png" id="12_d2aty"]
+[ext_resource type="Texture2D" uid="uid://bnda2rrjphtnv" path="res://images/updraft button.png" id="12_jqlc3"]
 [ext_resource type="Texture2D" uid="uid://ircxkg2et3dg" path="res://images/wall-breaker.png" id="12_o42e0"]
+[ext_resource type="Texture2D" uid="uid://camhdautt6p5r" path="res://images/updraft button selected.png" id="13_6kdfu"]
 [ext_resource type="Texture2D" uid="uid://dcb72pky62cs6" path="res://images/wall-breaker-selected.png" id="13_ahwho"]
 [ext_resource type="TileSet" uid="uid://breu25mcou247" path="res://scenes/main.tres" id="14_bkjpn"]
 [ext_resource type="Script" path="res://scripts/wall_breaker_button.gd" id="14_hv0b7"]
-[ext_resource type="Shader" path="res://scripts/pp.gdshader" id="14_kgou4"]
+[ext_resource type="Script" path="res://scenes/updraft_placer.gd" id="15_0e5gl"]
 [ext_resource type="Script" path="res://scripts/state_control.gd" id="15_7ss4k"]
+[ext_resource type="Texture2D" uid="uid://ds1ucby4j0qrv" path="res://images/updraft icon.png" id="15_42db7"]
 [ext_resource type="Texture2D" uid="uid://cbrn22f8duy3d" path="res://images/Selected hookpoint.png" id="16_mmmwj"]
 [ext_resource type="PackedScene" uid="uid://lmm7ey4g3hp" path="res://scenes/player.tscn" id="17_1a48t"]
 [ext_resource type="Script" path="res://scripts/animated_sprite_2d.gd" id="17_imnnu"]
@@ -30,15 +33,6 @@
 [ext_resource type="Texture2D" uid="uid://dot6m7jbym3rm" path="res://images/Background_B.JPG" id="21_cbx8r"]
 [ext_resource type="Shader" path="res://scenes/power_drain.gdshader" id="22_x40u7"]
 [ext_resource type="AudioStream" uid="uid://bvyhkt8rp0or7" path="res://sound/Gameplay Loop - Moon Blob (Nonatomusic).mp3" id="30_redyr"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ib0ci"]
-shader = ExtResource("14_kgou4")
-shader_parameter/WATER_COL = Color(0.176471, 0.635294, 0.85098, 1)
-shader_parameter/WATER2_COL = Color(0.0588235, 0.529412, 0.776471, 1)
-shader_parameter/FOAM_COL = Color(0.87451, 0.988235, 1, 1)
-shader_parameter/distortion_speed = 2.0
-shader_parameter/tile = Vector2(5, 5)
-shader_parameter/offset = Vector2(0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3tqt5"]
 shader = ExtResource("22_x40u7")
@@ -134,15 +128,6 @@ texture_filter = 1
 
 [node name="PP" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="PP"]
-visible = false
-material = SubResource("ShaderMaterial_ib0ci")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="PowerDrain" type="ColorRect" parent="PP"]
 material = SubResource("ShaderMaterial_3tqt5")
 anchors_preset = 15
@@ -162,6 +147,7 @@ ActionNode = NodePath("../Action Stuff")
 Camera = NodePath("../Camera2D")
 Music = NodePath("../AudioStreamPlayer")
 WonScene = "res://scenes/WonScene.tscn"
+DeathScene = "res://scenes/DeathScene.tscn"
 
 [node name="Paused" type="CanvasLayer" parent="."]
 
@@ -204,7 +190,7 @@ label_settings = SubResource("LabelSettings_300du")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="WallBreaker" type="TextureButton" parent="Paused/ColorRect" node_paths=PackedStringArray("PlayerInst", "TileMapInst", "Camera", "Counter")]
+[node name="WallBreaker" type="TextureButton" parent="Paused/ColorRect" node_paths=PackedStringArray("PlayerInst", "Camera", "Counter")]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -217,13 +203,45 @@ texture_hover = ExtResource("13_ahwho")
 stretch_mode = 5
 script = ExtResource("14_hv0b7")
 PlayerInst = NodePath("../../../Action Stuff/Player")
-TileMapInst = NodePath("../../../MapGenerator")
 Camera = NodePath("../../../Camera2D")
 PointTex = ExtResource("12_d2aty")
 Counter = NodePath("Counter")
 Breaks = 1
 
 [node name="Counter" type="Label" parent="Paused/ColorRect/WallBreaker"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.625
+anchor_top = 0.75
+anchor_right = 0.781
+anchor_bottom = 1.0
+offset_right = 0.0319977
+text = "1"
+label_settings = SubResource("LabelSettings_300du")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Updraft" type="TextureButton" parent="Paused/ColorRect" node_paths=PackedStringArray("PlayerInst", "TileMapInst", "ActionNode", "Camera", "Counter")]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_right = 0.3
+anchor_bottom = 1.0
+texture_normal = ExtResource("12_jqlc3")
+texture_pressed = ExtResource("13_6kdfu")
+texture_hover = ExtResource("13_6kdfu")
+stretch_mode = 5
+script = ExtResource("15_0e5gl")
+PlayerInst = NodePath("../../../Action Stuff/Player")
+TileMapInst = NodePath("../../../MapGenerator")
+ActionNode = NodePath("../../../Action Stuff")
+Camera = NodePath("../../../Camera2D")
+PointTex = ExtResource("15_42db7")
+Counter = NodePath("Counter")
+UpdraftScene = "res://scenes/up_draft.tscn"
+
+[node name="Counter" type="Label" parent="Paused/ColorRect/Updraft"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.625
@@ -316,7 +334,7 @@ TileMapToUse = NodePath("TileMapLayer")
 PlayerInst = NodePath("../Action Stuff/Player")
 State = NodePath("../StateControl")
 LargeGridRes = 16
-LargeGridSize = 6
+LargeGridSize = 4
 ActionNode = NodePath("../Action Stuff")
 North = NodePath("../Action Stuff/WorldBorders/North")
 East = NodePath("../Action Stuff/WorldBorders/East")
